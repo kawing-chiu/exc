@@ -9,6 +9,12 @@ void f();
 //static void fprintf() {
 //}
 
+// this one will work:
+//static double a = 50.0;
+
+// this one will NOT work(multiple definition error):
+//double a = 50.0;
+
 int main() {
     extern double a;
 

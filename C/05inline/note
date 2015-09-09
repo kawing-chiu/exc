@@ -1,0 +1,23 @@
+Inline functions in C99 is a quite confusing topic.
+
+In short, it is intended to be used like this:
+
+In some header:
+
+//myheader.h
+inline float square(float x) { return x*x; }
+
+This header can be included in many modules and no external callable
+version of the function is produced.
+
+
+To produce an external callable version:
+
+In one and only one .c file:
+
+//mysource.c
+extern inline float square(float x);
+
+
+It is weird that the definition goes into the header while the
+declaration goes into the source, but this is how it works.

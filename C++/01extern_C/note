@@ -1,0 +1,17 @@
+
+Use the following command line to create a shared library:
+
+g++ -ggdb3 -Wall -Wextra -std=c++11 -shared -fPIC $1 -Wl,-rpath,'$ORIGIN' \
+    -Wl,--no-undefined -l... -L. ... -o ...
+
+
+add -Wl,-soname,lib<name>.so.<ver> in production
+
+also add -Wl,-rpath,'$ORIGIN', to make the library usable outside of
+standard paths, see man ld.so
+
+-Wl,--no-undefined should be added, too. Otherwise if we forget to link
+some libraries using '-l', no error or warning will be issued.
+
+
+# vim: ft=

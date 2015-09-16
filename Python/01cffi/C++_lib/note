@@ -1,1 +1,8 @@
-The files c_wrapper.h, libtest.so and libwrapper.so comes from C++/01extern_C/
+The files c_wrapper.h, libtest.so and libwrapper.so come from C++/01extern_C/
+
+This exercises wraps a C++ lib (libtest.so) that has already been wrapped by a
+C lib (libwrapper.so).
+
+inline_abi.py is the inline ABI version.
+
+out-of-line_api.py and out-of-line_api_build.py are the out-of-line API version.

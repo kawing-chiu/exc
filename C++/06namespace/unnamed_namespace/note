@@ -1,0 +1,9 @@
+This folder tests the effect of unnamed namespace.
+
+Compile with:
+
+G++ test_global.cpp -c -o test_global.o
+G++ test_main.cpp test_global.o
+
+While i can be used like j in the same translation unit, it is not accessible
+from "outside".

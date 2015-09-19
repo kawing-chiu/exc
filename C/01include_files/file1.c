@@ -3,7 +3,7 @@
 void f();
 
 // Since <stdio.h> is #included, 'static' cannot be used
-// to mask global definition.
+// to mask global definition of fprintf.
 // See also '04const'
 // Multiple definition error:
 //static void fprintf() {

@@ -1,0 +1,4 @@
+When importing a, only a/__init__.py is called, and a.b is not available.
+
+When importing a.b, both a/__init__.py and a/b/__init__.py are called,
+and both a and a.b are available.

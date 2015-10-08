@@ -1,0 +1,4 @@
+In C++11 (not quite sure about previous verions of C++, may be different), a class with a user-defined ctor will be 
+initialized by that ctor no matter whether A a or A a() is called, even if the ctor is empty.
+
+So be careful when defining an empty ctor. = default can be used instead to get the default behavior.

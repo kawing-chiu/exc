@@ -1,3 +1,4 @@
+from cffi import FFI
 
 
 def _struct_to_dict(data, fields):
@@ -24,11 +25,43 @@ def cdata_to_python(data):
     if type_.kind == 'primitive':
         return data
     elif type_.kind == 'pointer':
-        return cdata_to_python(data[0])
+        if data == ffi.NULL:
+            return None
+        else:
+            try:
+                return cdata_to_python(data[0])
+            except TypeError:
+                return data[0]
     elif type_.kind == 'struct':
         return _struct_to_dict(data, type_.fields)
     elif type_.kind == 'array':
         return _array_to_list(data, type_.item, type_.length)
 
 
+ffi = FFI()
+ffi.cdef('''
+    struct Bar {
+        double d[10];
+        char c[20];
+    };
+    struct Foo {
+        int *i;
+        char c[10];
+        struct Bar bar;
+    };
+''')
+foo = ffi.new('struct Foo*')
+# the following is necessary:
+g_i = ffi.new('int *')
+foo.i = g_i
+# the following is WRONG:
+# foo.i = ffi.new('int *')
+# foo.i is not the original object and does not have ownership
+# and will point to garbage
+foo.i[0] = 200
+foo.c = b"hehehe"
+foo.bar.d = list(range(10))
+
+print(cdata_to_python(foo))
+#cdata_to_python(g_i)
 

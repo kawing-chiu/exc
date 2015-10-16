@@ -12,6 +12,11 @@ int TestClass::get_attr() {
     return attr;
 }
 
+int TestClass::callback(TestStruct *data) {
+    cout << "In original TestClass callback" << endl;
+    return 100;
+}
+
 void TestClass::call_callback() {
     TestStruct test_data = {"测试", 20};
     cout << "calling callback..." << endl;
@@ -19,7 +24,9 @@ void TestClass::call_callback() {
     cout << "callback return: " << ret << endl;
 }
 
-void TestClass::set_callback(int (*callback)(TestStruct *)) {
-    cout << "setting callback..." << endl;
-    this->real_callback_ = callback;
+void TestClass::call_callback2() {
+    int i = 5;
+    cout << "calling callback2..." << endl;
+    int ret = this->callback2(i);
+    cout << "callback return: " << ret << endl;
 }

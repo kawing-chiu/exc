@@ -8,19 +8,18 @@
 class TestClass {
     private:
         int attr = 0;
-    protected:
-        int (*real_callback_)(TestStruct *);
     public:
         virtual ~TestClass() {}
 
         void set_attr(int i);
         int get_attr();
 
-        virtual int callback(TestStruct *data) = 0;
+        virtual int callback(TestStruct *data);
+        virtual int callback2(int i) = 0;
 
         void call_callback();
+        void call_callback2();
 
-        void set_callback(int (*callback)(TestStruct *));
 };
 
 #else

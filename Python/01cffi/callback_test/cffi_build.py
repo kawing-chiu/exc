@@ -9,7 +9,7 @@ ffi.set_source('_wrapper_module', """
         {header}
         {cpp}
     """.format(header=wrapper_header, cpp=wrapper_cpp),
-    libraries=['wrapper', 'derived', 'test'], source_extension='.cpp',
+    libraries=['derived', 'test'], source_extension='.cpp',
     extra_compile_args=['-std=c++11', '-Wall', '-Wextra', '-ggdb3'],
     extra_link_args=['-L.', '-Wl,-rpath,$ORIGIN', '-Wl,--no-undefined'])
 

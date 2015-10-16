@@ -15,7 +15,7 @@ extern "C" {
     }
 
     void derived_class_set_callback(TestClass* c, int (*callback)(TestStruct *)) {
-        c->set_callback(callback);
+        dynamic_cast<DerivedClass*>(c)->set_callback(callback);
     }
 
     void derived_class_call_callback(TestClass* c) {

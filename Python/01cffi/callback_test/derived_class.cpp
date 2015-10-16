@@ -10,5 +10,27 @@ int DerivedClass::callback(TestStruct *data) {
     //cout << "text: " <<  data->text << endl;
     //return 5;
 
+    TestClass::callback(data);
     return this->real_callback_(data);
 }
+
+int DerivedClass::callback2(int i) {
+    return this->real_callback2_(i);
+}
+
+void DerivedClass::set_callback(int (*callback)(TestStruct *)) {
+    cout << "setting callback..." << endl;
+    this->real_callback_ = callback;
+}
+
+void DerivedClass::set_callback2(int (*callback)(int i)) {
+    cout << "setting callback2..." << endl;
+    this->real_callback2_ = callback;
+}
+
+
+
+
+
+
+

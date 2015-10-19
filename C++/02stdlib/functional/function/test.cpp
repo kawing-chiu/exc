@@ -37,6 +37,9 @@ int main() {
     Foo foo(100000);
     f_Foo_print_add(foo, 1);
 
+    std::function<void(const Foo *, int)> f_Foo_print_add1 = &Foo::print_add;
+    f_Foo_print_add1(&foo, 2);
+
     // binding to foo:
     // by value:
     using std::placeholders::_1;

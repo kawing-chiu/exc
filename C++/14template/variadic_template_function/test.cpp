@@ -11,6 +11,7 @@ double sum() {
 
 template<class Head, class ... Tail>
 double sum(Head h, Tail ... t) {
+    cout << __PRETTY_FUNCTION__ << endl;
     return h + sum(t ...);
 }
 

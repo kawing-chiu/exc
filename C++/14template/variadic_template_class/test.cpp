@@ -26,7 +26,7 @@ struct Tup<T, Ts...> : Tup<Ts...> {
 };
 
 template<size_t k, class T, class... Ts>
-struct elem_type_holder;
+struct elem_type_holder {};
 
 template<size_t k, class T, class... Ts>
 struct elem_type_holder<k, Tup<T, Ts...>> {

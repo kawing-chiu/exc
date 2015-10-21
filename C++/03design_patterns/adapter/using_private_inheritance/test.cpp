@@ -56,6 +56,7 @@ int main() {
 
     Interface *c = new Adapter(30, 32, 5.5);
     c->execute();
+    dynamic_cast<Adapter *>(c)->f();
     delete c;
 
 }

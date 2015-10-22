@@ -1,0 +1,5 @@
+If b is a pointer to base, then:
+
+to call a method that is only present in derived class, use dynamic_cast (or a derived class pointer)
+
+to call a virtual function IN BASE, get a pointer d of derived class, then d->base::<method>()

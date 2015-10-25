@@ -32,6 +32,7 @@ int main() {
     f_print_135();
 
     // call to member function:
+    // note that Foo::print_add has only one int parameter
     std::function<void(const Foo &, int)> f_Foo_print_add = &Foo::print_add;
     //const Foo foo(100000);
     Foo foo(100000);

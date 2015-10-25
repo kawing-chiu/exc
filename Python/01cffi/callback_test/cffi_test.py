@@ -45,7 +45,7 @@ def cdata_to_python(data):
         return _array_to_list(data, type_.item, type_.length)
 
 
-@ffi.callback('int (*callback)(TestStruct *)')
+@ffi.callback('int (*callback)(TestStruct *)', error=-1)
 def python_callback(data):
     print("testing python callback")
     #print(ffi.string(data.text))
@@ -54,6 +54,7 @@ def python_callback(data):
     print(data)
     print("json:", json.dumps(data))
 
+    raise Exception
     ##pointer
     #type = ffi.typeof(data)
     #print(dir(type))
@@ -81,4 +82,8 @@ def python_callback(data):
     return 1000
 
 lib.derived_class_set_callback(tc, python_callback)
-lib.derived_class_call_callback(tc)
+try:
+    lib.derived_class_call_callback(tc)
+# CANNOT catch exception
+except Exception:
+    print("good")

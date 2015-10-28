@@ -62,4 +62,22 @@ int main() {
     dynamic_cast<transmitter *>(b)->transmitter::read();
     dynamic_cast<radio *>(b)->test();
 
+    ///////////////////////
+    print_spr();
+
+    transmitter *t = new transmitter();
+    t->read();
+    transmitter *t2 = new radio();
+    t2->read();
 }
+
+
+
+
+
+
+
+
+
+
+

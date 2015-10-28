@@ -21,13 +21,22 @@ class D : public Base {
         D() {
             cout << "D::D()" << endl;
         }
+
         // this will call the DEFAULT ctor of Base, i.e. Base::Base():
         //D(int a, int b) {
         //    cout << "D::D(a, b)" << endl;
         //}
+
+        // the correct way:
+        // specify which base ctor to use explicitly
         D(int a, int b) : Base(a, b) {
             cout << "D::D(a, b)" << endl;
         }
+
+        //D(int a, int b) {
+        //    cout << "D::D(a, b)" << endl;
+        //    Base(a, b);
+        //}
 };
 
 int main() {

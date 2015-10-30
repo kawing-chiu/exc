@@ -1,0 +1,1 @@
+From this tests, we can see that when a function references a variable in the enclosing scope, its value is not saved. The function only records the name and the scope where the variable resides in.

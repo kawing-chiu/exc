@@ -9,3 +9,6 @@ test(33)
 
 test2.i = "testing"
 test(None)
+
+del test2.i
+test("no i")

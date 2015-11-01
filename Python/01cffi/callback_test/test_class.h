@@ -15,7 +15,7 @@ class TestClass {
         int get_attr();
 
         virtual int callback(TestStruct *data);
-        virtual int callback2(int i) = 0;
+        virtual void callback2(int i) = 0;
 
         void call_callback();
         void call_callback2();

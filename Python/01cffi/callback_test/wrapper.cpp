@@ -18,8 +18,16 @@ extern "C" {
         dynamic_cast<DerivedClass*>(c)->set_callback(callback);
     }
 
+    void derived_class_set_callback2(TestClass* c, void (*callback)(int i)) {
+        dynamic_cast<DerivedClass*>(c)->set_callback2(callback);
+    }
+
     void derived_class_call_callback(TestClass* c) {
         c->call_callback();
+    }
+
+    void derived_class_call_callback2(TestClass* c) {
+        c->call_callback2();
     }
 
     void delete_derived_class(TestClass* c) {

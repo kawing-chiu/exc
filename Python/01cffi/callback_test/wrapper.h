@@ -18,7 +18,11 @@ int derived_class_get_attr(TestClass* c);
 
 void derived_class_set_callback(TestClass* c, int (*callback)(TestStruct *));
 
+void derived_class_set_callback2(TestClass* c, void (*callback)(int i));
+
 void derived_class_call_callback(TestClass* c);
+
+void derived_class_call_callback2(TestClass* c);
 
 void delete_derived_class(TestClass* c);
 

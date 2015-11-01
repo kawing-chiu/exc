@@ -10,9 +10,9 @@
 class DerivedClass : public TestClass {
     public:
         virtual int callback(TestStruct *data);
-        virtual int callback2(int i);
+        virtual void callback2(int i);
         void set_callback(int (*callback)(TestStruct *));
-        void set_callback2(int (*callback)(int i));
+        void set_callback2(void (*callback)(int i));
 
         //template<typename Func>
         //void set_callback(std::string name, Func f) {
@@ -24,7 +24,7 @@ class DerivedClass : public TestClass {
         //}
     private:
         int (*real_callback_)(TestStruct *);
-        int (*real_callback2_)(int i);
+        void (*real_callback2_)(int i);
 };
 
 

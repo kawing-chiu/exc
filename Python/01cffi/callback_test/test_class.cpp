@@ -27,6 +27,5 @@ void TestClass::call_callback() {
 void TestClass::call_callback2() {
     int i = 5;
     cout << "calling callback2..." << endl;
-    int ret = this->callback2(i);
-    cout << "callback return: " << ret << endl;
+    this->callback2(i);
 }

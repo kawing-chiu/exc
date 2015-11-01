@@ -14,8 +14,8 @@ int DerivedClass::callback(TestStruct *data) {
     return this->real_callback_(data);
 }
 
-int DerivedClass::callback2(int i) {
-    return this->real_callback2_(i);
+void DerivedClass::callback2(int i) {
+    this->real_callback2_(i);
 }
 
 void DerivedClass::set_callback(int (*callback)(TestStruct *)) {
@@ -23,7 +23,7 @@ void DerivedClass::set_callback(int (*callback)(TestStruct *)) {
     this->real_callback_ = callback;
 }
 
-void DerivedClass::set_callback2(int (*callback)(int i)) {
+void DerivedClass::set_callback2(void (*callback)(int i)) {
     cout << "setting callback2..." << endl;
     this->real_callback2_ = callback;
 }

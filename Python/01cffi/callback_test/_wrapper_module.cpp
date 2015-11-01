@@ -409,7 +409,11 @@ int derived_class_get_attr(TestClass* c);
 
 void derived_class_set_callback(TestClass* c, int (*callback)(TestStruct *));
 
+void derived_class_set_callback2(TestClass* c, void (*callback)(int i));
+
 void derived_class_call_callback(TestClass* c);
+
+void derived_class_call_callback2(TestClass* c);
 
 void delete_derived_class(TestClass* c);
 
@@ -440,8 +444,16 @@ extern "C" {
         dynamic_cast<DerivedClass*>(c)->set_callback(callback);
     }
 
+    void derived_class_set_callback2(TestClass* c, void (*callback)(int i)) {
+        dynamic_cast<DerivedClass*>(c)->set_callback2(callback);
+    }
+
     void derived_class_call_callback(TestClass* c) {
         c->call_callback();
+    }
+
+    void derived_class_call_callback2(TestClass* c) {
+        c->call_callback2();
     }
 
     void delete_derived_class(TestClass* c) {
@@ -458,29 +470,36 @@ static void *_cffi_types[] = {
 /*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 3), // TestClass *()(void)
 /*  1 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
 /*  2 */ _CFFI_OP(_CFFI_OP_FUNCTION, 17), // int()(TestClass *)
-/*  3 */ _CFFI_OP(_CFFI_OP_POINTER, 19), // TestClass *
+/*  3 */ _CFFI_OP(_CFFI_OP_POINTER, 26), // TestClass *
 /*  4 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
 /*  5 */ _CFFI_OP(_CFFI_OP_FUNCTION, 17), // int()(TestStruct *)
-/*  6 */ _CFFI_OP(_CFFI_OP_POINTER, 20), // TestStruct *
+/*  6 */ _CFFI_OP(_CFFI_OP_POINTER, 27), // TestStruct *
 /*  7 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  8 */ _CFFI_OP(_CFFI_OP_FUNCTION, 25), // void()(TestClass *)
+/*  8 */ _CFFI_OP(_CFFI_OP_FUNCTION, 32), // void()(TestClass *)
 /*  9 */ _CFFI_OP(_CFFI_OP_NOOP, 3),
 /* 10 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 11 */ _CFFI_OP(_CFFI_OP_FUNCTION, 25), // void()(TestClass *, int(*)(TestStruct *))
+/* 11 */ _CFFI_OP(_CFFI_OP_FUNCTION, 32), // void()(TestClass *, int(*)(TestStruct *))
 /* 12 */ _CFFI_OP(_CFFI_OP_NOOP, 3),
 /* 13 */ _CFFI_OP(_CFFI_OP_POINTER, 5), // int(*)(TestStruct *)
 /* 14 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 15 */ _CFFI_OP(_CFFI_OP_FUNCTION, 25), // void()(TestClass *, int)
+/* 15 */ _CFFI_OP(_CFFI_OP_FUNCTION, 32), // void()(TestClass *, int)
 /* 16 */ _CFFI_OP(_CFFI_OP_NOOP, 3),
 /* 17 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
 /* 18 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 19 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // TestClass
-/* 20 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // TestStruct
-/* 21 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
-/* 22 */ _CFFI_OP(_CFFI_OP_ARRAY, 21), // char[20]
-/* 23 */ (_cffi_opcode_t)(20),
-/* 24 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14), // double
-/* 25 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
+/* 19 */ _CFFI_OP(_CFFI_OP_FUNCTION, 32), // void()(TestClass *, void(*)(int))
+/* 20 */ _CFFI_OP(_CFFI_OP_NOOP, 3),
+/* 21 */ _CFFI_OP(_CFFI_OP_POINTER, 23), // void(*)(int)
+/* 22 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 23 */ _CFFI_OP(_CFFI_OP_FUNCTION, 32), // void()(int)
+/* 24 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 25 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 26 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // TestClass
+/* 27 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // TestStruct
+/* 28 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
+/* 29 */ _CFFI_OP(_CFFI_OP_ARRAY, 28), // char[20]
+/* 30 */ (_cffi_opcode_t)(20),
+/* 31 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14), // double
+/* 32 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
 };
 
 static void _cffi_d_delete_derived_class(TestClass * x0)
@@ -553,6 +572,42 @@ _cffi_f_derived_class_call_callback(PyObject *self, PyObject *arg0)
 }
 #else
 #  define _cffi_f_derived_class_call_callback _cffi_d_derived_class_call_callback
+#endif
+
+static void _cffi_d_derived_class_call_callback2(TestClass * x0)
+{
+  derived_class_call_callback2(x0);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_derived_class_call_callback2(PyObject *self, PyObject *arg0)
+{
+  TestClass * x0;
+  Py_ssize_t datasize;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(3), arg0, (char **)&x0);
+  if (datasize != 0) {
+    if (datasize < 0)
+      return NULL;
+    x0 = (TestClass *)alloca((size_t)datasize);
+    memset((void *)x0, 0, (size_t)datasize);
+    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(3), arg0) < 0)
+      return NULL;
+  }
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { derived_class_call_callback2(x0); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+#else
+#  define _cffi_f_derived_class_call_callback2 _cffi_d_derived_class_call_callback2
 #endif
 
 static int _cffi_d_derived_class_get_attr(TestClass * x0)
@@ -691,6 +746,56 @@ _cffi_f_derived_class_set_callback(PyObject *self, PyObject *args)
 #  define _cffi_f_derived_class_set_callback _cffi_d_derived_class_set_callback
 #endif
 
+static void _cffi_d_derived_class_set_callback2(TestClass * x0, void(* x1)(int))
+{
+  derived_class_set_callback2(x0, x1);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_derived_class_set_callback2(PyObject *self, PyObject *args)
+{
+  TestClass * x0;
+  void(* x1)(int);
+  Py_ssize_t datasize;
+  PyObject *arg0;
+  PyObject *arg1;
+  PyObject **aa;
+
+  aa = _cffi_unpack_args(args, 2, "derived_class_set_callback2");
+  if (aa == NULL)
+    return NULL;
+  arg0 = aa[0];
+  arg1 = aa[1];
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(3), arg0, (char **)&x0);
+  if (datasize != 0) {
+    if (datasize < 0)
+      return NULL;
+    x0 = (TestClass *)alloca((size_t)datasize);
+    memset((void *)x0, 0, (size_t)datasize);
+    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(3), arg0) < 0)
+      return NULL;
+  }
+
+  x1 = (void(*)(int))_cffi_to_c_pointer(arg1, _cffi_type(21));
+  if (x1 == (void(*)(int))NULL && PyErr_Occurred())
+    return NULL;
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { derived_class_set_callback2(x0, x1); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+#else
+#  define _cffi_f_derived_class_set_callback2 _cffi_d_derived_class_set_callback2
+#endif
+
 static TestClass * _cffi_d_new_derived_class(void)
 {
   return new_derived_class();
@@ -728,31 +833,33 @@ struct _cffi_align__TestStruct { char x; TestStruct y; };
 static const struct _cffi_global_s _cffi_globals[] = {
   { "delete_derived_class", (void *)_cffi_f_delete_derived_class, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 8), (void *)_cffi_d_delete_derived_class },
   { "derived_class_call_callback", (void *)_cffi_f_derived_class_call_callback, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 8), (void *)_cffi_d_derived_class_call_callback },
+  { "derived_class_call_callback2", (void *)_cffi_f_derived_class_call_callback2, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 8), (void *)_cffi_d_derived_class_call_callback2 },
   { "derived_class_get_attr", (void *)_cffi_f_derived_class_get_attr, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 2), (void *)_cffi_d_derived_class_get_attr },
   { "derived_class_set_attr", (void *)_cffi_f_derived_class_set_attr, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 15), (void *)_cffi_d_derived_class_set_attr },
   { "derived_class_set_callback", (void *)_cffi_f_derived_class_set_callback, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 11), (void *)_cffi_d_derived_class_set_callback },
+  { "derived_class_set_callback2", (void *)_cffi_f_derived_class_set_callback2, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 19), (void *)_cffi_d_derived_class_set_callback2 },
   { "new_derived_class", (void *)_cffi_f_new_derived_class, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 0), (void *)_cffi_d_new_derived_class },
 };
 
 static const struct _cffi_field_s _cffi_fields[] = {
   { "text", offsetof(TestStruct, text),
             sizeof(((TestStruct *)0)->text),
-            _CFFI_OP(_CFFI_OP_NOOP, 22) },
+            _CFFI_OP(_CFFI_OP_NOOP, 29) },
   { "num", offsetof(TestStruct, num),
            sizeof(((TestStruct *)0)->num),
-           _CFFI_OP(_CFFI_OP_NOOP, 24) },
+           _CFFI_OP(_CFFI_OP_NOOP, 31) },
 };
 
 static const struct _cffi_struct_union_s _cffi_struct_unions[] = {
-  { "TestClass", 19, _CFFI_F_OPAQUE,
+  { "TestClass", 26, _CFFI_F_OPAQUE,
     (size_t)-1, -1, -1, 0 /* opaque */ },
-  { "TestStruct", 20, _CFFI_F_CHECK_FIELDS,
+  { "TestStruct", 27, _CFFI_F_CHECK_FIELDS,
     sizeof(TestStruct), offsetof(struct _cffi_align__TestStruct, y), 0, 2 },
 };
 
 static const struct _cffi_typename_s _cffi_typenames[] = {
-  { "TestClass", 19 },
-  { "TestStruct", 20 },
+  { "TestClass", 26 },
+  { "TestStruct", 27 },
 };
 
 static const struct _cffi_type_context_s _cffi_type_context = {
@@ -762,12 +869,12 @@ static const struct _cffi_type_context_s _cffi_type_context = {
   _cffi_struct_unions,
   NULL,  /* no enums */
   _cffi_typenames,
-  6,  /* num_globals */
+  8,  /* num_globals */
   2,  /* num_struct_unions */
   0,  /* num_enums */
   2,  /* num_typenames */
   NULL,  /* no includes */
-  26,  /* num_types */
+  33,  /* num_types */
   0,  /* flags */
 };
 

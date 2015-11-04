@@ -1,11 +1,12 @@
 import ply.yacc as yacc
-import lexer # Import lexer information
 
-tokens = lexer.tokens # Need token list
+from lexer import tokens
+
 
 def p_assign(p):
     '''assign : NAME EQUALS expr'''
     print("assign:", list(p))
+    p[0] = 1000
 
 def p_expr(p):
     '''expr : expr PLUS term
@@ -25,11 +26,13 @@ def p_factor(p):
     '''factor : NUMBER'''
     print("factor:", list(p))
 
-yacc.yacc()
+parser = yacc.yacc()
 
 def run():
     data = "x = 3 * 4 + 5 * 6"
-    yacc.parse(data)
+    # res is p[0] of the starting grammar rule
+    res = parser.parse(data)
+    print("res:", res)
 
 if __name__ == '__main__':
     run()

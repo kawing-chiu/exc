@@ -37,21 +37,21 @@ state 0
     (0) S' -> . assign
     (1) assign -> . NAME EQUALS expr
 
-    NAME            shift and go to state 1
+    NAME            shift and go to state 2
 
-    assign                         shift and go to state 2
+    assign                         shift and go to state 1
 
 state 1
 
-    (1) assign -> NAME . EQUALS expr
+    (0) S' -> assign .
 
-    EQUALS          shift and go to state 3
 
 
 state 2
 
-    (0) S' -> assign .
+    (1) assign -> NAME . EQUALS expr
 
+    EQUALS          shift and go to state 3
 
 
 state 3
@@ -65,26 +65,13 @@ state 3
     (7) term -> . factor
     (8) factor -> . NUMBER
 
-    NUMBER          shift and go to state 5
+    NUMBER          shift and go to state 4
 
-    term                           shift and go to state 4
-    factor                         shift and go to state 6
-    expr                           shift and go to state 7
+    factor                         shift and go to state 7
+    expr                           shift and go to state 5
+    term                           shift and go to state 6
 
 state 4
-
-    (4) expr -> term .
-    (5) term -> term . TIMES factor
-    (6) term -> term . DIVIDE factor
-
-    PLUS            reduce using rule 4 (expr -> term .)
-    MINUS           reduce using rule 4 (expr -> term .)
-    $end            reduce using rule 4 (expr -> term .)
-    TIMES           shift and go to state 9
-    DIVIDE          shift and go to state 8
-
-
-state 5
 
     (8) factor -> NUMBER .
 
@@ -95,7 +82,31 @@ state 5
     $end            reduce using rule 8 (factor -> NUMBER .)
 
 
+state 5
+
+    (1) assign -> NAME EQUALS expr .
+    (2) expr -> expr . PLUS term
+    (3) expr -> expr . MINUS term
+
+    $end            reduce using rule 1 (assign -> NAME EQUALS expr .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+
+
 state 6
+
+    (4) expr -> term .
+    (5) term -> term . TIMES factor
+    (6) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 4 (expr -> term .)
+    MINUS           reduce using rule 4 (expr -> term .)
+    $end            reduce using rule 4 (expr -> term .)
+    TIMES           shift and go to state 11
+    DIVIDE          shift and go to state 10
+
+
+state 7
 
     (7) term -> factor .
 
@@ -106,36 +117,7 @@ state 6
     $end            reduce using rule 7 (term -> factor .)
 
 
-state 7
-
-    (1) assign -> NAME EQUALS expr .
-    (2) expr -> expr . PLUS term
-    (3) expr -> expr . MINUS term
-
-    $end            reduce using rule 1 (assign -> NAME EQUALS expr .)
-    PLUS            shift and go to state 10
-    MINUS           shift and go to state 11
-
-
 state 8
-
-    (6) term -> term DIVIDE . factor
-    (8) factor -> . NUMBER
-
-    NUMBER          shift and go to state 5
-
-    factor                         shift and go to state 12
-
-state 9
-
-    (5) term -> term TIMES . factor
-    (8) factor -> . NUMBER
-
-    NUMBER          shift and go to state 5
-
-    factor                         shift and go to state 13
-
-state 10
 
     (2) expr -> expr PLUS . term
     (5) term -> . term TIMES factor
@@ -143,12 +125,12 @@ state 10
     (7) term -> . factor
     (8) factor -> . NUMBER
 
-    NUMBER          shift and go to state 5
+    NUMBER          shift and go to state 4
 
-    term                           shift and go to state 14
-    factor                         shift and go to state 6
+    factor                         shift and go to state 7
+    term                           shift and go to state 12
 
-state 11
+state 9
 
     (3) expr -> expr MINUS . term
     (5) term -> . term TIMES factor
@@ -156,12 +138,56 @@ state 11
     (7) term -> . factor
     (8) factor -> . NUMBER
 
-    NUMBER          shift and go to state 5
+    NUMBER          shift and go to state 4
 
-    term                           shift and go to state 15
-    factor                         shift and go to state 6
+    factor                         shift and go to state 7
+    term                           shift and go to state 13
+
+state 10
+
+    (6) term -> term DIVIDE . factor
+    (8) factor -> . NUMBER
+
+    NUMBER          shift and go to state 4
+
+    factor                         shift and go to state 14
+
+state 11
+
+    (5) term -> term TIMES . factor
+    (8) factor -> . NUMBER
+
+    NUMBER          shift and go to state 4
+
+    factor                         shift and go to state 15
 
 state 12
+
+    (2) expr -> expr PLUS term .
+    (5) term -> term . TIMES factor
+    (6) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 2 (expr -> expr PLUS term .)
+    MINUS           reduce using rule 2 (expr -> expr PLUS term .)
+    $end            reduce using rule 2 (expr -> expr PLUS term .)
+    TIMES           shift and go to state 11
+    DIVIDE          shift and go to state 10
+
+
+state 13
+
+    (3) expr -> expr MINUS term .
+    (5) term -> term . TIMES factor
+    (6) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 3 (expr -> expr MINUS term .)
+    MINUS           reduce using rule 3 (expr -> expr MINUS term .)
+    $end            reduce using rule 3 (expr -> expr MINUS term .)
+    TIMES           shift and go to state 11
+    DIVIDE          shift and go to state 10
+
+
+state 14
 
     (6) term -> term DIVIDE factor .
 
@@ -172,7 +198,7 @@ state 12
     $end            reduce using rule 6 (term -> term DIVIDE factor .)
 
 
-state 13
+state 15
 
     (5) term -> term TIMES factor .
 
@@ -181,30 +207,4 @@ state 13
     PLUS            reduce using rule 5 (term -> term TIMES factor .)
     MINUS           reduce using rule 5 (term -> term TIMES factor .)
     $end            reduce using rule 5 (term -> term TIMES factor .)
-
-
-state 14
-
-    (2) expr -> expr PLUS term .
-    (5) term -> term . TIMES factor
-    (6) term -> term . DIVIDE factor
-
-    PLUS            reduce using rule 2 (expr -> expr PLUS term .)
-    MINUS           reduce using rule 2 (expr -> expr PLUS term .)
-    $end            reduce using rule 2 (expr -> expr PLUS term .)
-    TIMES           shift and go to state 9
-    DIVIDE          shift and go to state 8
-
-
-state 15
-
-    (3) expr -> expr MINUS term .
-    (5) term -> term . TIMES factor
-    (6) term -> term . DIVIDE factor
-
-    PLUS            reduce using rule 3 (expr -> expr MINUS term .)
-    MINUS           reduce using rule 3 (expr -> expr MINUS term .)
-    $end            reduce using rule 3 (expr -> expr MINUS term .)
-    TIMES           shift and go to state 9
-    DIVIDE          shift and go to state 8
 

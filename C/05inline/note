@@ -21,3 +21,10 @@ extern inline float square(float x);
 
 It is weird that the definition goes into the header while the
 declaration goes into the source, but this is how it works.
+
+Also note that the optimization compile option (-O) has an effect on whether 
+inline actually applies.
+
+
+In C++, inline definitions always goes into header like in C99, but there is no such
+thing as 'extern inline'. So nothing needs to be put into .cpp files.

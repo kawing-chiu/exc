@@ -20,7 +20,8 @@ use -fvisibility=hidden to hide unused symbols, and export the necessary ones
 using __attribute__ ((visibility ("default"))) in code.
 
 However, be careful with exceptions and other entities with 'vague linkage'.
-They must not be hidden. Refer to https://gcc.gnu.org/wiki/Visibility.
+They must not be hidden. Refer to https://gcc.gnu.org/wiki/Visibility and see 
+the tests in 18exceptions/.
 
 
 # vim: ft=

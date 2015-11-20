@@ -28,9 +28,9 @@ def cdata_to_python(data):
         if data == ffi.NULL:
             return None
         else:
-            try:
+            if isinstance(data[0], ffi.CData):
                 return cdata_to_python(data[0])
-            except TypeError:
+            else:
                 return data[0]
     elif type_.kind == 'struct':
         return _struct_to_dict(data, type_.fields)

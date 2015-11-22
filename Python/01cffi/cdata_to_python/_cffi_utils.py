@@ -139,9 +139,10 @@ def cdata_to_python_ver3(data, encoding='utf-8'):
 
 @profile
 def cdata_to_python_ver4(data, encoding='utf-8'):
+    typeof = ffi.typeof
     @profile
     def _cdata_to_python_inner(data):
-        type_ = ffi.typeof(data)
+        type_ = typeof(data)
         kind = type_.kind
         if kind == 'primitive':
             return data
@@ -156,7 +157,8 @@ def cdata_to_python_ver4(data, encoding='utf-8'):
         elif kind == 'struct':
             d = {}
             for name, field in type_.fields:
-                if field.type.kind == 'primitive':
+                kind = field.type.kind
+                if kind == 'primitive':
                     d[name] = getattr(data, name)
                 else:
                     d[name] = _cdata_to_python_inner(getattr(data, name))

@@ -1,5 +1,5 @@
 from cffi import FFI
-from _cffi_utils import cdata_to_python, cdata_to_python_ver2
+from _cffi_utils import cdata_to_python_ver4 as cdata_to_python
 
 
 
@@ -29,6 +29,5 @@ foo.c = b"hehehe"
 foo.bar.d = list(range(10))
 
 print(cdata_to_python(foo))
-print(cdata_to_python_ver2(foo))
-#cdata_to_python(g_i)
+print(cdata_to_python(g_i))
 

@@ -7,6 +7,8 @@ def profile(f):
 
 ffi = FFI()
 
+from _data_wrapper import ffi
+
 @profile
 def _struct_to_dict(data, fields, encoding):
     d = {}
@@ -155,7 +157,8 @@ def cdata_to_python_ver4(data, encoding='utf-8'):
                 else:
                     return data[0]
         elif kind == 'struct':
-            d = {}
+            #d = {}
+            d = OrderedDict()
             for name, field in type_.fields:
                 kind = field.type.kind
                 if kind == 'primitive':

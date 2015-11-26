@@ -11,7 +11,7 @@ typedef void *_cffi_opcode_t;
 
 #define _CFFI_OP(opcode, arg)   (_cffi_opcode_t)(opcode | (((uintptr_t)(arg)) << 8))
 #define _CFFI_GETOP(cffi_opcode)    ((unsigned char)(uintptr_t)cffi_opcode)
-#define _CFFI_GETARG(cffi_opcode)   (((uintptr_t)cffi_opcode) >> 8)
+#define _CFFI_GETARG(cffi_opcode)   (((intptr_t)cffi_opcode) >> 8)
 
 #define _CFFI_OP_PRIMITIVE       1
 #define _CFFI_OP_POINTER         3
@@ -85,7 +85,9 @@ typedef void *_cffi_opcode_t;
 #define _CFFI_PRIM_UINTMAX      47
 
 #define _CFFI__NUM_PRIM         48
-#define _CFFI__UNKNOWN_PRIM    (-1)
+#define _CFFI__UNKNOWN_PRIM           (-1)
+#define _CFFI__UNKNOWN_FLOAT_PRIM     (-2)
+#define _CFFI__UNKNOWN_LONG_DOUBLE    (-3)
 
 
 struct _cffi_global_s {
@@ -377,6 +379,12 @@ static PyObject **_cffi_unpack_args(PyObject *args_tuple, Py_ssize_t expected,
      (size) == 4 ? ((sign) ? _CFFI_PRIM_INT32 : _CFFI_PRIM_UINT32) :    \
      (size) == 8 ? ((sign) ? _CFFI_PRIM_INT64 : _CFFI_PRIM_UINT64) :    \
      _CFFI__UNKNOWN_PRIM)
+
+#define _cffi_prim_float(size)                                          \
+    ((size) == sizeof(float) ? _CFFI_PRIM_FLOAT :                       \
+     (size) == sizeof(double) ? _CFFI_PRIM_DOUBLE :                     \
+     (size) == sizeof(long double) ? _CFFI__UNKNOWN_LONG_DOUBLE :       \
+     _CFFI__UNKNOWN_FLOAT_PRIM)
 
 #define _cffi_check_int(got, got_nonpos, expected)      \
     ((got_nonpos) == (expected <= 0) &&                 \

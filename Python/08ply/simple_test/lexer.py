@@ -1,3 +1,5 @@
+# equivalent to: from ply import lex
+# surprisingly, when importing like this, neither ply nor ply.lex is imported
 import ply.lex as lex
 
 
@@ -20,7 +22,7 @@ t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
 def t_NUMBER(t):
     r'\d+'
-    #print("got t:", t.value)
+    #print("got t:", type(t.value))
     t.value = int(t.value)
     return t
 

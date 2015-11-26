@@ -48,7 +48,7 @@ ffi.set_source('_wrapper_module', '''
         }
     ''', libraries=['test'], source_extension='.cpp',
     # even if -ggdb3 is not specified, the resulting library is not stripped, 
-    # to strip the library, '-Wl,--strip-all' might be added, not quite sure 
+    # to strip the library, '-Wl,--strip-debug' might be added, not quite sure 
     # whether it is a good approach yet
     extra_compile_args=['-std=c++11', '-Wall', '-Wextra', '-ggdb3'],
     extra_link_args=['-L.', '-Wl,-rpath,$ORIGIN', '-Wl,--no-undefined'])

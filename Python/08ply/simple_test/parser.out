@@ -37,21 +37,21 @@ state 0
     (0) S' -> . assign
     (1) assign -> . NAME EQUALS expr
 
-    NAME            shift and go to state 2
+    NAME            shift and go to state 1
 
-    assign                         shift and go to state 1
+    assign                         shift and go to state 2
 
 state 1
-
-    (0) S' -> assign .
-
-
-
-state 2
 
     (1) assign -> NAME . EQUALS expr
 
     EQUALS          shift and go to state 3
+
+
+state 2
+
+    (0) S' -> assign .
+
 
 
 state 3
@@ -67,9 +67,9 @@ state 3
 
     NUMBER          shift and go to state 4
 
-    factor                         shift and go to state 7
-    expr                           shift and go to state 5
-    term                           shift and go to state 6
+    factor                         shift and go to state 5
+    expr                           shift and go to state 6
+    term                           shift and go to state 7
 
 state 4
 
@@ -84,6 +84,17 @@ state 4
 
 state 5
 
+    (7) term -> factor .
+
+    TIMES           reduce using rule 7 (term -> factor .)
+    DIVIDE          reduce using rule 7 (term -> factor .)
+    PLUS            reduce using rule 7 (term -> factor .)
+    MINUS           reduce using rule 7 (term -> factor .)
+    $end            reduce using rule 7 (term -> factor .)
+
+
+state 6
+
     (1) assign -> NAME EQUALS expr .
     (2) expr -> expr . PLUS term
     (3) expr -> expr . MINUS term
@@ -93,7 +104,7 @@ state 5
     MINUS           shift and go to state 9
 
 
-state 6
+state 7
 
     (4) expr -> term .
     (5) term -> term . TIMES factor
@@ -106,17 +117,6 @@ state 6
     DIVIDE          shift and go to state 10
 
 
-state 7
-
-    (7) term -> factor .
-
-    TIMES           reduce using rule 7 (term -> factor .)
-    DIVIDE          reduce using rule 7 (term -> factor .)
-    PLUS            reduce using rule 7 (term -> factor .)
-    MINUS           reduce using rule 7 (term -> factor .)
-    $end            reduce using rule 7 (term -> factor .)
-
-
 state 8
 
     (2) expr -> expr PLUS . term
@@ -127,7 +127,7 @@ state 8
 
     NUMBER          shift and go to state 4
 
-    factor                         shift and go to state 7
+    factor                         shift and go to state 5
     term                           shift and go to state 12
 
 state 9
@@ -140,7 +140,7 @@ state 9
 
     NUMBER          shift and go to state 4
 
-    factor                         shift and go to state 7
+    factor                         shift and go to state 5
     term                           shift and go to state 13
 
 state 10

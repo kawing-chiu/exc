@@ -1,0 +1,10 @@
+After the class definition is read, Python executes Meta(name, bases, dct),
+if metaclass is not specified, then it defaults to type. Normally, the
+metaclass Meta should be a subclass of type.
+
+The call to Meta() executes the following methods just like normal classes:
+
+    NewClass = Meta.__new__(Meta, name, bases, dct)
+    Meta.__init__(NewClass, name, bases, dct)
+
+The difference is that the target is the new class and these methods are executed when the class is defined.

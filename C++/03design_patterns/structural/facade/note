@@ -1,0 +1,4 @@
+The facade pattern is used to provide a new interface. It is similar to 
+adapter. The difference is that the latter puts emphasis on wrapping old 
+interfaces as is while the facade pattern usually comes with a design of new 
+interfaces.

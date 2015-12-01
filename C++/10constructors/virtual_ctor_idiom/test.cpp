@@ -2,6 +2,9 @@
 
 using namespace std;
 
+// this example is from 
+// https://isocpp.org/wiki/faq/virtual-functions#virtual-ctors
+
 class Shape {
     public:
         virtual ~Shape() { }                 // A virtual destructor
@@ -14,33 +17,36 @@ class Shape {
             Shape *s = nullptr;
             return s;
         }
-        virtual Shape* create() const = 0;   // Uses the default constructor
+        virtual Shape* create(int x) const = 0;   // Uses the default constructor
 };
 
 class Circle : public Shape {
     public:
+        Circle(int x) : _x(x) {}
         Circle* clone() const override;   // Covariant Return Types
-        Circle* create() const override;   // Covariant Return Types
+        Circle* create(int x) const override;   // Covariant Return Types
         void draw() override {
-            cout << "Circle::draw" << endl;
+            cout << "Circle::draw x: " << _x << endl;
         }
         void move() override {
             cout << "Circle::move" << endl;
         }
+    private:
+        int _x = 0;
 };
 
 Circle* Circle::clone() const {
     cout << "Circle::clone" << endl;
     return new Circle(*this);
 }
-Circle* Circle::create() const {
+Circle* Circle::create(int x) const {
     cout << "Circle::create" << endl;
-    return new Circle();
+    return new Circle(x);
 }
 
 int main() {
-    Circle c;
-    Shape *c2 = new Circle;
+    Circle c(10);
+    Shape *c2 = new Circle(20);
 
     Shape *s = c.clone();
     Shape *s2 = c2->clone();

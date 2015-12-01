@@ -1,0 +1,25 @@
+C++ cannot have virtual constructors. The virtual constructor idiom similates 
+it.
+
+The meaning of covariant return type is: if a derived class method returns a 
+more specific type than its overridden base class method, the derived class 
+return type is said to be covariant. For example:
+
+class Base {
+public:
+    virtual Base* clone() const
+    {
+        return new Base(this);
+    }
+};
+
+class Derived : public Base {
+public:
+    virtual Derived* clone() const
+    {
+        return new Derived(this);
+    }
+};
+
+This language feature allows the corresponding virtual function in the derived 
+class correctly overrides the one in the base class.

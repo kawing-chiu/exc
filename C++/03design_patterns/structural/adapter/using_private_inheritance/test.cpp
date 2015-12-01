@@ -4,46 +4,51 @@
 using namespace std;
 
 
+// the new interface
 class Interface {
     public:
-    virtual ~Interface() {
-        cout << "destructor of Interface" << endl;
-    }
-    virtual void execute() = 0;
+        virtual ~Interface() {
+            cout << "destructor of Interface" << endl;
+        }
+        virtual void execute() = 0;
 };
 
+// the old class
 class A {
     public:
-    A(int x1, int x2) : _x1(x1), _x2(x2) {}
-    //~A() {
-    //    cout << "destructor of A" << endl;
-    //}
-    void f() {
-        cout << "calling A::f" << endl;
-    }
-    void old_execute() {
-        cout << "_x1: " << _x1 << " " << "_x2: " << _x2 << endl;
-    }
+        A(int x1, int x2) : _x1(x1), _x2(x2) {}
+        //~A() {
+        //    cout << "destructor of A" << endl;
+        //}
+        void f() {
+            cout << "calling A::f" << endl;
+        }
+        void old_execute() {
+            cout << "_x1: " << _x1 << " " << "_x2: " << _x2 << endl;
+        }
     private:
-    int _x1;
-    int _x2;
+        int _x1;
+        int _x2;
 };
 
+// the adapter
 class Adapter : public Interface, private A {
     public:
-    Adapter(double y1, double y2, double z) : A(y1, y2), _z(z) {}
-    virtual ~Adapter() {
-        cout << "destructor of Adapter" << endl;
-    }
+        Adapter(double y1, double y2, double z) : A(y1, y2), _z(z) {}
+        virtual ~Adapter() {
+            cout << "destructor of Adapter" << endl;
+        }
 
-    virtual void execute() override {
-        old_execute();
-    }
+        virtual void execute() override {
+            cout << "_z: " << _z << endl;
+            cout << "calling old_execute:" << endl;
+            old_execute();
+        }
 
-    using A::f;
+        using A::f;
 
     private:
-    double _z;
+        double _z;
 };
 
 int main() {
@@ -54,6 +59,7 @@ int main() {
     //b->execute();
     //delete b;
 
+    // no need to use a Interface pointer, in fact...
     Interface *c = new Adapter(30, 32, 5.5);
     c->execute();
     dynamic_cast<Adapter *>(c)->f();

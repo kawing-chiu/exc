@@ -9,7 +9,7 @@ moved (std::move should not be used here).
 As for passing unique_ptr to function/class, the situation is more complicated:
 
 1.for a function that just processes the object pointed to by unique_ptr, but 
-does not claim ownship, passing a reference to the object is the best choice.  
+does not claim ownership, passing a reference to the object is the best choice.  
 The second choice is to pass the unique_ptr by const reference.
 
 2.to transfer the ownership of the unique_ptr, pass by value, and use std::move 

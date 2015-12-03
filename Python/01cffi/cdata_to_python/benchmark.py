@@ -42,34 +42,34 @@ def run():
     depth_data = ffi.new('struct CThostFtdcDepthMarketDataField *', depth_data)
     #print(cdata_to_python_ver2(depth_data))
 
-    n = 10000
-    n = 1
-    print(cdata_to_python_ver4(depth_data))
-    sys.exit()
+    n = 100000
+    #n = 1
+    #print(cdata_to_python_ver4(depth_data))
+    #sys.exit()
 
-    #begin = time.time()
-    #for i in range(n):
-    #    cdata_to_python_ver4(depth_data)
-    #t = time.time() - begin
-    #print("depth_data, ver4: {}, {:.10f}".format(t, t/n))
+    begin = time.time()
+    for i in range(n):
+        cdata_to_python_ver4(depth_data)
+    t = time.time() - begin
+    print("depth_data, ver4: {}, {:.10f}".format(t, t/n))
 
-    #begin = time.time()
-    #for i in range(n):
-    #    cdata_to_python_ver3(depth_data)
-    #t = time.time() - begin
-    #print("depth_data, ver3: {}, {:.10f}".format(t, t/n))
+    begin = time.time()
+    for i in range(n):
+        cdata_to_python_ver3(depth_data)
+    t = time.time() - begin
+    print("depth_data, ver3: {}, {:.10f}".format(t, t/n))
 
-    #begin = time.time()
-    #for i in range(n):
-    #    cdata_to_python_ver2(depth_data)
-    #t = time.time() - begin
-    #print("depth_data, ver2: {}, {:.10f}".format(t, t/n))
+    begin = time.time()
+    for i in range(n):
+        cdata_to_python_ver2(depth_data)
+    t = time.time() - begin
+    print("depth_data, ver2: {}, {:.10f}".format(t, t/n))
 
-    #begin = time.time()
-    #for i in range(n):
-    #    cdata_to_python(depth_data)
-    #t = time.time() - begin
-    #print("depth_data, ver0: {}, {:.10f}".format(t, t/n))
+    begin = time.time()
+    for i in range(n):
+        cdata_to_python(depth_data)
+    t = time.time() - begin
+    print("depth_data, ver0: {}, {:.10f}".format(t, t/n))
 
     begin = time.time()
     for i in range(n):
@@ -77,23 +77,23 @@ def run():
     t = time.time() - begin
     print("error_info, ver4: {:.10f}".format(t/n))
 
-    #begin = time.time()
-    #for i in range(n):
-    #    cdata_to_python_ver3(error_info, encoding='gb18030')
-    #t = time.time() - begin
-    #print("error_info, ver3: {:.10f}".format(t/n))
+    begin = time.time()
+    for i in range(n):
+        cdata_to_python_ver3(error_info, encoding='gb18030')
+    t = time.time() - begin
+    print("error_info, ver3: {:.10f}".format(t/n))
 
-    #begin = time.time()
-    #for i in range(n):
-    #    cdata_to_python_ver2(error_info, encoding='gb18030')
-    #t = time.time() - begin
-    #print("error_info, ver2: {:.10f}".format(t/n))
+    begin = time.time()
+    for i in range(n):
+        cdata_to_python_ver2(error_info, encoding='gb18030')
+    t = time.time() - begin
+    print("error_info, ver2: {:.10f}".format(t/n))
 
-    #begin = time.time()
-    #for i in range(n):
-    #    cdata_to_python(depth_data, encoding='gb18030')
-    #t = time.time() - begin
-    #print("error_info, ver0: {:.10f}".format(t/n))
+    begin = time.time()
+    for i in range(n):
+        cdata_to_python(depth_data, encoding='gb18030')
+    t = time.time() - begin
+    print("error_info, ver0: {:.10f}".format(t/n))
 
 if __name__ == '__main__':
     run()

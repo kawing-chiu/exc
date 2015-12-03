@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 
 using namespace std;
@@ -27,6 +28,21 @@ class Adapter : public Interface {
         }
     private:
         T* _obj;
+        void (T::* _member_func)();
+};
+
+// a new version using smart pointer
+template<typename T>
+class Adapter2 : public Interface {
+    public:
+        // no customized destructor
+        Adapter2(T* obj, void(T::* old_member_func)()) : _obj(std::move(unique_ptr<T>(obj))), _member_func(old_member_func) {}
+        virtual void execute() override {
+            cout << "Adapter2: calling old interface:" << endl;
+            (_obj.get()->*_member_func)();
+        }
+    private:
+        unique_ptr<T> _obj;
         void (T::* _member_func)();
 };
 
@@ -75,4 +91,15 @@ int main() {
         delete objects[i];
     }
     delete [] objects;
+
+    cout << "-------------" << endl;
+
+    // test the smart pointer version
+    Adapter2<A> a(new A(), &A::f);
+    a.execute();
+
 }
+
+
+
+

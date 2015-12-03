@@ -1,0 +1,16 @@
+Test memory leak with `valgrind --leak-check=full ./test`.
+
+unique_ptr allows only one owner of the underlying pointer, so it can only be 
+moved but not copied. The real reference-count smart pointer is shared_ptr.
+
+unique_ptr can be returned from function normally, and will be automatically 
+moved (std::move should not be used here).
+
+As for passing unique_ptr to function/class, the situation is more complicated:
+
+1.for a function that just processes the object pointed to by unique_ptr, but 
+does not claim ownship, passing a reference to the object is the best choice.  
+The second choice is to pass the unique_ptr by const reference.
+
+2.to transfer the ownership of the unique_ptr, pass by value, and use std::move 
+when calling.

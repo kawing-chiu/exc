@@ -6,9 +6,11 @@ using namespace std;
 
 class Base {
     public:
-        virtual ~Base() {}
+        virtual ~Base() {
+            cout << "destructing Base" << endl;
+        }
         virtual void print_a() {
-            cout << "I'm Base, I have no a to print." << endl;
+            cout << "I'm Base, I have no 'a' to print." << endl;
         }
 };
 
@@ -31,7 +33,7 @@ class Test : public Base {
         int _a;
 };
 
-void f() {
+unique_ptr<Test> f() {
     std::unique_ptr<Test> p1(new Test);
     p1->set_a(250);
     p1->print_a();
@@ -40,14 +42,52 @@ void f() {
     // not working:
     //p2->set_a(300);
     //dynamic_cast<Test *>(p2)->set_a(300);
+
+    // .get() method return the raw pointer:
     dynamic_cast<Test *>(p2.get())->set_a(300);
     p2->print_a();
+
+    // can return directly from function, will be automatically moved
+    return p1;
+}
+
+// this is the best to pass a unique_ptr to function (do not transfer 
+// ownership)
+// also works with non-smart pointer
+void process_ptr1(Test &t) {
+    t.set_a(t.get_a() + 10);
+}
+
+// this is also ok, by using const &, the function can use the pointer but 
+// cannot claim its ownership
+void process_ptr2(unique_ptr<Test> const &p) {
+    p->set_a(p->get_a() + 20);
+}
+
+void transfer_ptr(unique_ptr<Test> p) {
+    cout << "in transfer_ptr" << endl;
+    p->set_a(500);
+    p->print_a();
 }
 
 int main() {
-    cout << "before f" << endl;
-    f();
+    unique_ptr<Test> p1 = f();
     cout << "after f" << endl;
+    p1->print_a();
+
+    cout << "-------------" << endl;
+
+    process_ptr1(*p1);
+    p1->print_a();
+
+    process_ptr2(p1);
+    p1->print_a();
+
+    // note that std::move is mandatory!
+    transfer_ptr(std::move(p1));
+    cout << "returned from transfer_ptr()" << endl;
+    // segmentation fault:
+    //p1->print_a();
 }
 
 

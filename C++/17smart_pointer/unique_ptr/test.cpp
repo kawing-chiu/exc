@@ -70,6 +70,18 @@ void transfer_ptr(unique_ptr<Test> p) {
     p->print_a();
 }
 
+template<typename T>
+class PtrBank {
+    public:
+        // note that std::move is mandatory
+        PtrBank(unique_ptr<T> p) : _p(std::move(p)) {}
+        void show_ptr() {
+            _p->print_a();
+        }
+    private:
+        unique_ptr<T> _p;
+};
+
 int main() {
     unique_ptr<Test> p1 = f();
     cout << "after f" << endl;
@@ -83,11 +95,24 @@ int main() {
     process_ptr2(p1);
     p1->print_a();
 
-    // note that std::move is mandatory!
+    // note that std::move is mandatory
     transfer_ptr(std::move(p1));
     cout << "returned from transfer_ptr()" << endl;
     // segmentation fault:
     //p1->print_a();
+
+    cout << "-------------" << endl;
+
+    // test transferring ownership to new class
+    std::unique_ptr<Test> p2(new Test);
+    p2->set_a(300);
+    PtrBank<Test> bank(std::move(p2));
+    bank.show_ptr();
+
+    // not working:
+    //PtrBank<Test> bank2(new Test);
+    PtrBank<Test> bank2(unique_ptr<Test>(new Test));
+    bank2.show_ptr();
 }
 
 

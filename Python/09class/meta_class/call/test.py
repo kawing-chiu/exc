@@ -12,6 +12,8 @@ class TestMeta(type):
         print("TestMeta: __call__ super().__call__ finished", cls)
         return call_res
 
+    abc = "attribute from meta"
+
 
 class TestClass(with_metaclass(TestMeta)):
     def __new__(cls):
@@ -27,3 +29,8 @@ class TestClass(with_metaclass(TestMeta)):
 print("Creating object")
 test = TestClass(1, x="good")
 print("test:", test)
+
+
+print(test.__class__.__class__.abc)
+# not working:
+#print(test.abc)

@@ -7,6 +7,7 @@ class TestMeta(type):
         print("TestMeta: __call__ kwargs:", kwargs)
         print("TestMeta: __call__ calling super().__call__", cls)
         # note that type.__call__ accepts no arguments
+        # it is type's __call__ who calls __new__ of the class being defined
         call_res = super(TestMeta, cls).__call__()
         print("TestMeta: __call__ super().__call__ finished", cls)
         return call_res
@@ -25,3 +26,4 @@ class TestClass(with_metaclass(TestMeta)):
 
 print("Creating object")
 test = TestClass(1, x="good")
+print("test:", test)

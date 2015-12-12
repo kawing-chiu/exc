@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -26,12 +27,13 @@ class Core : public Interface {
 
 class Decorator : public Interface {
     private:
-        Interface *_inner;
+        unique_ptr<Interface> _inner;
+        //Interface *_inner;
     public:
         Decorator(Interface *i) : _inner(i) {}
         ~Decorator() {
             cout << "dtor of Decorator, deleting _inner..." << endl;
-            delete _inner;
+            //delete _inner;
         }
         void write(string &s) override {
             _inner->write(s);
@@ -55,6 +57,7 @@ class Wrapper : public Decorator {
         }
         void write(string &s) override {
             s += _forward + " ";
+            // All decorators call functions of the core object like this:
             Decorator::write(s);
             s += " " + _backward;
         }

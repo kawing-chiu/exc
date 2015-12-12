@@ -16,4 +16,16 @@ Or:
 
 
 Note that no new method can be added to the interface. Only the functionality 
-of the methods can be changes (or more precisely, decorated).
+of the methods can be changed (or more precisely, decorated).
+
+
+
+The implementation creates an abstract base class for the interface, then 
+inherits both the core object class and the decorator class from the interface.  
+
+The decorator class works by:
+
+    1. keeps a pointer to the interface, which later points to the core object
+    2. defines the functions required by the interface, which call the
+       corresponding functions of the core object
+

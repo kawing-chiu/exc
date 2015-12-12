@@ -1,0 +1,19 @@
+The purpose of the decorator pattern is to allow adding functionality (or 
+component) dynamically. For example:
+
+    Widget* widget = new BorderDecorator(
+            new HorizontalScrollBarDecorator(
+                new VerticalScrollBarDecorator(
+                    new Window(80, 24))));
+    widget->draw();
+
+Or:
+
+    Stream* stream = new CompressingStream(
+            new ASCII7Stream(
+                new FileStream("some_file.dat")));
+    stream->putString("Hello world");
+
+
+Note that no new method can be added to the interface. Only the functionality 
+of the methods can be changes (or more precisely, decorated).

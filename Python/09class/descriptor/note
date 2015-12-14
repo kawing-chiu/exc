@@ -1,0 +1,13 @@
+Descriptors are used for defining reusable "clever" attributes. The most simple 
+way is to use the @property, @x.setter and @x.deleter decorators. This method 
+works for simple cases but it's not resuable.
+
+Full-fledged descriptors are defined by a class with special methods __get__, 
+__set__ and __delete__. Then instances of this class are used as attributes in 
+other classes. Decriptor classes often use a WeakKeyDictionary to do 
+bookkeeping. This is because all instances of the class using the descriptor 
+use the same instance of the descriptor class.
+
+
+A great tutorial about descriptor is here: 
+http://nbviewer.ipython.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb

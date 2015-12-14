@@ -20,7 +20,7 @@ class NonNegative:
         self._data[instance] = value
 
     def __delete__(self, instance):
-        raise Exception("Deletion of attribute is not supported!")
+        raise AttributeError("Deletion of attribute is not supported!")
 
 class Movie:
     # all instances of the Movie class use the same descriptor instance!!!

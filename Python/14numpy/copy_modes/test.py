@@ -23,15 +23,35 @@ print("a shape:", a.shape)
 c[0, 3] = 100
 print("a:", a)
 
+# slicing also return a view:
+print("a[0:3].base is a:", a[0:3].base is a)
+# however indexing using an array is a different story
+
 
 print("-----------")
 
 # the third is deep copy:
-# d is completely not related to a:
 d = a.copy()
+# d is completely not related to a
 
+# note that the built-in list.copy() (since Python 3.3) is shallow copy, NOT
+# deep copy! However, since np.array contains only simply (immutable) data, the
+# result is the same.
+l = [1, [1, 3], 5]
+ll = l.copy()
+ll[1][0] = 300
+print(l)
 
+print("-----------")
 
+# indexing using another array or list is a deep copy:
+e = a[np.array([5, 7, 9])]
+# the same
+#e = a[ [5, 7, 9] ]
+print("e.base is a:", e.base is a)
+e[0] = 500
+print("e:", e)
+print("a:", a)
 
 
 

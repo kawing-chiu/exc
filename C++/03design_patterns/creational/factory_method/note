@@ -1,0 +1,3 @@
+The factory method pattern uses a method other than the contructor to (let the 
+user) initialize the object. This method may be a static method but this is not 
+necessarily true.

@@ -36,12 +36,15 @@ class Test : public Base {
 unique_ptr<Test> f() {
     std::unique_ptr<Test> p1(new Test);
     p1->set_a(250);
+    cout << "p1: ";
     p1->print_a();
 
     std::unique_ptr<Base> p2(new Test);
     // not working:
     //p2->set_a(300);
     //dynamic_cast<Test *>(p2)->set_a(300);
+    cout << "p2 (using base pointer): ";
+    p2->print_a();
 
     // .get() method return the raw pointer:
     dynamic_cast<Test *>(p2.get())->set_a(300);

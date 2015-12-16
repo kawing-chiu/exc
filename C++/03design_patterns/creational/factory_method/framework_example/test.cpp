@@ -69,6 +69,8 @@ class MyApplication : public Application {
 int main() {
     MyApplication app;
 
+    cout << "---------------" << endl;
+
     app.new_document("foo");
     app.new_document("bar");
 

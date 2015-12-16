@@ -1,0 +1,12 @@
+The abstract factory, just as its name implies, creates an abstract interface 
+to create different types of objects. The factory classes are meant to be used 
+like this:
+
+    #ifdef WINDOWS
+        Factory *factory = new WindowsFactory;
+    #else
+        Factory *factory = new LinuxFactory;
+    #endif
+
+That is, the exact type of object to use is chosen at initialization of the 
+program.

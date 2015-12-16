@@ -1,0 +1,5 @@
+The strategy pattern is in fact very simple. It means to create a common 
+(abstract) interface for the algorithms so that clients can use a pointer to 
+the base interface to call the actual algorithm.
+
+Just ignore the complex implementation in the tests...

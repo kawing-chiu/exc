@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -33,32 +34,41 @@ class WindowsMenu : public Widget {
 
 class Factory {
     public:
-        virtual Widget *create_button() = 0;
-        virtual Widget *create_menu() = 0;
+        //virtual Widget *create_button() = 0;
+        virtual std::unique_ptr<Widget> create_button() = 0;
+        //virtual Widget *create_menu() = 0;
+        virtual std::unique_ptr<Widget> create_menu() = 0;
 };
 
 class LinuxFactory : public Factory {
     public:
-        Widget *create_button() override {
-            return new LinuxButton;
+        std::unique_ptr<Widget> create_button() override {
+            // memory lost!
+            //return new LinuxButton;
+            return std::unique_ptr<Widget>(new LinuxButton);
         }
-        Widget *create_menu() override {
-            return new LinuxMenu;
+        std::unique_ptr<Widget> create_menu() override {
+            // memory lost!
+            //return new LinuxMenu;
+            return std::unique_ptr<Widget>(new LinuxMenu);
         }
 };
 
 class WindowsFactory : public Factory {
     public:
-        Widget* create_button() {
-            return new WindowsButton;
+        std::unique_ptr<Widget> create_button() {
+            //return new WindowsButton;
+            return std::unique_ptr<Widget>(new WindowsButton);
         }
-        Widget* create_menu()   {
-            return new WindowsMenu;
+        std::unique_ptr<Widget> create_menu()   {
+            //return new WindowsMenu;
+            return std::unique_ptr<Widget>(new WindowsMenu);
         }
 };
 
 void display_window(Factory *factory) {
-    Widget *w[] = { factory->create_button(), factory->create_menu() };
+    //Widget *w[] = { factory->create_button(), factory->create_menu() };
+    std::unique_ptr<Widget> w[] = { factory->create_button(), factory->create_menu() };
     for (size_t i = 0; i < size_of_array(w); i++) {
         w[i]->draw();
     }
@@ -66,12 +76,20 @@ void display_window(Factory *factory) {
 
 int main() {
 #ifdef WINDOWS
-    Factory *factory = new WindowsFactory;
+    // memory lost!
+    //Factory *factory = new WindowsFactory;
+    std::unique_ptr<Factory> factory(new WindowsFactory);
 #else
-    Factory *factory = new LinuxFactory;
+    // memory lost!
+    //Factory *factory = new LinuxFactory;
+    // wrong way:
+    //std::unique_ptr<Factory> factory = new LinuxFactory;
+    std::unique_ptr<Factory> factory(new LinuxFactory);
 #endif
 
-    display_window(factory);
+    // for normal pointer:
+    //display_window(factory);
+    display_window(factory.get());
 }
 
 

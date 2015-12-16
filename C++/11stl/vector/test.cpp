@@ -50,6 +50,8 @@ int main() {
     //    auto i  = &it - &v[0];
     //    cout << "v[" << i << "]: " << it << endl;
     //}
+
+    // when using auto, getting the index is not that convenient:
     for (auto& it : v) {
         auto i  = &it - &v[0];
         cout << "v[" << i << "]: " << it << endl;

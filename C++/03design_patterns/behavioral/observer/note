@@ -1,0 +1,8 @@
+The observer pattern is used in the situation where many observers subscribe to 
+changes in an subject. Whenever the subject is changed, all of the observers 
+are notified. Then the observers can query the subject for information and then 
+act accordingly.
+
+This is implemented by keeping a vector of observers (pointers of course) in 
+the subject while keeping a pointer to the subject in every oberver (this 
+pointer should go into the base class of all the observers, obviously).

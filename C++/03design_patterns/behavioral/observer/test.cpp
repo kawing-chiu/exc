@@ -21,6 +21,7 @@ class Subject {
         void notify();
 };
 
+// many observers subscribing changes to the subject
 class Observer {
     private:
         Subject *_model;

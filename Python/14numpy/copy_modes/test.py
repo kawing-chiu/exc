@@ -17,7 +17,7 @@ print("c.base is a:", c.base is a)
 
 # shape is not shared:
 c.shape = (2, 6)
-print("a shape:", a.shape)
+print("a's shape:", a.shape)
 
 # but the underlying data IS shared:
 c[0, 3] = 100
@@ -35,7 +35,7 @@ d = a.copy()
 # d is completely not related to a
 
 # note that the built-in list.copy() (since Python 3.3) is shallow copy, NOT
-# deep copy! However, since np.array contains only simply (immutable) data, the
+# deep copy! However, since np.array contains only simple (immutable) data, the
 # result is the same.
 l = [1, [1, 3], 5]
 ll = l.copy()
@@ -44,7 +44,7 @@ print(l)
 
 print("-----------")
 
-# indexing using another array or list is a deep copy:
+# unlike slicing, indexing using another array or list is a deep copy:
 e = a[np.array([5, 7, 9])]
 # the same
 #e = a[ [5, 7, 9] ]

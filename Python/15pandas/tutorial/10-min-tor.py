@@ -54,6 +54,53 @@ print(df.sort_values(by='B'))
 ### 3. indexing
 print("\n### 3. indexing")
 
+# using standard python expressions, this is NOT recommended
+# selecting column
+df['A']
+df[['A','C']]
+# selecting row
+df[0:1]
+# the same as above, but note that it is inclusive
+df['2016-01-01':'2016-01-01']
+# this will not work, rows can only be selected using slice
+#df[0]
+
+
+# df.loc[] selects by index label, it selects rows by default
+df.loc[dates[0]]
+df.loc[dates]
+df.loc['2016-01-03']
+df.loc[:, ['A', 'C']]
+# both endpoints are INCLUSIVE
+print(df.loc['20160102':'20160104', ['A','B']])
+# get scalar
+df.loc[dates[0],'A']
+# get scalar, fast version
+df.at[dates[0],'A']
+
+
+# df.iloc[] selects by position, also selects rows by default
+df.iloc[0]
+# the same
+df.iloc[0,:]
+df.iloc[[1,2,4],[0,2]]
+# selecting columns
+df.iloc[:,1:3]
+# however, unlike df.loc[], both endpoints are NON-INCLUSIVE
+print(df.iloc[1:4, 0:2])
+# get scalar
+df.iloc[1,1]
+# get scalar, fast version
+df.iat[1,1]
+
+
+# boolean indexing
+df[df.A > 0]
+
+df2 = df.copy()
+df2['E'] = ['one', 'one','two','three','four','three']
+df2[df2['E'].isin(['two','four'])]
+
 
 ### 4. merging
 print("\n### 4. merging")
@@ -67,11 +114,14 @@ print("\n### 5. grouping")
 print("\n### 6. reshaping")
 
 
-### 7. time series
+### 7. pivot_table
+
+
+### 8. time series
 print("\n### 7. time series")
 
 
-### 8. plotting
+### 9. plotting
 print("\n### 8. plotting")
 
 

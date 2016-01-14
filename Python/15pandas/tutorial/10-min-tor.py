@@ -163,4 +163,13 @@ ts = ts.cumsum()
 ts.plot()
 #plt.show()
 
+# DataFrame.plot()
+# plot all columns with labels
+ts_df = pd.DataFrame(np.random.randn(1000, 4), index=ts.index,
+                  columns=['A', 'B', 'C', 'D'])
+ts_df = ts_df.cumsum()
+ts_df.plot()
+plt.legend(loc='best')
+plt.show()
+
 

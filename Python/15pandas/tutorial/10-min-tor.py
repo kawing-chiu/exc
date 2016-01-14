@@ -129,22 +129,38 @@ df.append(s, ignore_index=True)
 ### 5. grouping
 print("\n### 5. grouping")
 
+df = pd.DataFrame({'A' : ['foo', 'bar', 'foo', 'bar',
+                          'foo', 'bar', 'foo', 'foo'],
+                   'B' : ['one', 'one', 'two', 'three',
+                          'two', 'two', 'one', 'three'],
+                   'C' : np.random.randn(8),
+                   'D' : np.random.randn(8)})
+print(df.groupby('A').sum())
 
 ### 6. reshaping
 print("\n### 6. reshaping")
 
+# stack
 
-### 7. pivot_table
+# pivot_table
+df = pd.DataFrame({'A' : ['one', 'one', 'two', 'three'] * 3,
+                   'B' : ['A', 'B', 'C'] * 4,
+                   'C' : ['foo', 'foo', 'foo', 'bar', 'bar', 'bar'] * 2,
+                   'D' : np.random.randn(12),
+                   'E' : np.random.randn(12)})
+pd.pivot_table(df, values='D', index=['A', 'B'], columns=['C'])
 
 
-### 8. time series
+### 7. time series
 print("\n### 7. time series")
 
 
-### 9. plotting
+### 8. plotting
 print("\n### 8. plotting")
 
-
-
+ts = pd.Series(np.random.randn(1000), index=pd.date_range('1/1/2000', periods=1000))
+ts = ts.cumsum()
+ts.plot()
+#plt.show()
 
 

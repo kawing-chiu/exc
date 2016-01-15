@@ -86,7 +86,7 @@ df.iloc[0,:]
 df.iloc[[1,2,4],[0,2]]
 # selecting columns
 df.iloc[:,1:3]
-# however, unlike df.loc[], both endpoints are NON-INCLUSIVE
+# however, unlike df.loc[], both the right endpoint is NON-INCLUSIVE
 print(df.iloc[1:4, 0:2])
 # get scalar
 df.iloc[1,1]

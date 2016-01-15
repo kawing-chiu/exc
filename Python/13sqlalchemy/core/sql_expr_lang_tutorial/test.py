@@ -326,21 +326,23 @@ print("tables:", insp.get_table_names())
 meta = MetaData()
 meta.reflect(engine)
 
-for table in meta.tables.values():
-    print("Table {}:".format(table))
-    #print("\tforeign keys: {}".format(
-    #    ' '.join([x.target_fullname for x in table.foreign_keys])
-    #))
-    print("\tcolumns:")
-    for col in table.columns:
-        line = "\t\t{}".format(col.name)
-        if col.primary_key:
-            line += "  (primary-key)"
-        if col.foreign_keys:
-            line += "  (foreign-key: {})".format(
-                ' '.join([x.target_fullname for x in col.foreign_keys])
-            )
-        print(line)
+# see inspect_db.py
+
+#for table in meta.tables.values():
+#    print("Table {}:".format(table))
+#    #print("\tforeign keys: {}".format(
+#    #    ' '.join([x.target_fullname for x in table.foreign_keys])
+#    #))
+#    print("\tcolumns:")
+#    for col in table.columns:
+#        line = "\t\t{}".format(col.name)
+#        if col.primary_key:
+#            line += "  (primary-key)"
+#        if col.foreign_keys:
+#            line += "  (foreign-key: {})".format(
+#                ' '.join([x.target_fullname for x in col.foreign_keys])
+#            )
+#        print(line)
 
 
 

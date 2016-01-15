@@ -2,6 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from sqlalchemy import create_engine
+
+
+engine = create_engine('sqlite:///test.db')
+
 
 ### 1. MultiIndex (hierarchical index)
 # create multi index
@@ -24,7 +29,11 @@ arrays = [np.array(['bar', 'bar', 'baz', 'baz', 'foo', 'foo', 'qux', 'qux']),
           np.array(['one', 'two', 'one', 'two', 'one', 'two', 'one', 'two'])]
 s = pd.Series(np.random.randn(8), index=arrays)
 df = pd.DataFrame(np.random.randn(8, 4), index=arrays)
+# show names of the indexes
+df.index.names
 
+#df.to_sql('test_table', engine)
+print(df)
 
 
 

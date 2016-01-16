@@ -49,7 +49,7 @@ a = np.array([foo, foo, bar, bar, foo, foo], dtype=object)
 b = np.array([one, one, two, one, two, one], dtype=object)
 c = np.array([dull, dull, shiny, dull, dull, shiny], dtype=object)
 # the first arg is index, the second is columns
-pd.crosstab(a, [b, c], rownames=['a'], colnames=['b', 'c'])
+ct = pd.crosstab(a, [b, c], rownames=['a'], colnames=['b', 'c'])
 
 
 

@@ -125,10 +125,14 @@ dfmi = dfmi.iloc[:,np.random.permutation(len(dfmi.columns))]
 
 # SORT IT !
 dfmi = dfmi.sort_index().sort_index(axis=1)
+# or
+dfmi.sort_index(inplace=True)
+dfmi.sort_index(axis=1, inplace=True)
 
 
-# slice(None) selects all rows of that level, levels cannot not be omited in 
-# the middle, but can be omited at last
+# slice(None) selects all rows of that level
+# not that levels cannot NOT be omited when using slice on MultiIndex!
+# XXX: the last ':' is mandatory
 dfmi.loc[(slice('A1','A3'),slice(None),['C1','C3']),:]
 
 # an alternative (better) syntax
@@ -138,6 +142,7 @@ dfmi.loc[idx[:,:,['C1','C3']],idx[:,'foo']]
 # can mixed with boolean indexers
 mask = dfmi[('a','foo')]>200
 dfmi.loc[idx[mask,:,['C1','C3']],idx[:]]
+dfmi.loc[idx[mask,:,['C1','C3']],:]
 
 
 # operate on a single axis
@@ -146,6 +151,10 @@ df2 = dfmi.copy()
 df2.loc[idx[:,:,['C1','C3']],:] = df2/1000
 df2
 df2.loc(axis=0)[:,:,['C1','C3']] = -10
+# note that without axis=0, this will NOT work because it's ambiguous
+#df2.loc[:,:,['C1','C3']]
+# the same problem
+#df2.loc[idx[:,:,['C1','C3']]]
 
 
 

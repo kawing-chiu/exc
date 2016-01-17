@@ -58,12 +58,17 @@ index.get_level_values('second')
 # basic indexing
 s = pd.Series(np.random.randn(8), index=arrays)
 df = pd.DataFrame(np.random.randn(3, 8), index=['A', 'B', 'C'], columns=index)
+bi_df = df
+bi_df_T = df.T
 
 s['foo']
 
 df['bar']
 df['bar', 'two']
 df['bar']['two']
+
+bi_df_T.loc['bar', 'one']
+bi_df_T.loc['bar'].loc['one']
 
 # alignment and reindex
 # works the same as normal single index
@@ -91,6 +96,56 @@ df.ix[[('bar', 'two'), ('qux', 'one')]]
 
 
 
+# using slicers
+# XXX: when using slicers, the MultiIndex must be sorted MANUALLY beforehand
+def mklbl(prefix,n):
+    return ["%s%s" % (prefix,i)  for i in range(n)]
+miindex = pd.MultiIndex.from_product([mklbl('A',4),
+                                      mklbl('B',2),
+                                      mklbl('C',4),
+                                      mklbl('D',2)])
+micolumns = pd.MultiIndex.from_tuples([('a','foo'),('a','bar'),
+                                       ('b','foo'),('b','bah')],
+                                      names=['lvl0', 'lvl1'])
+dfmi = pd.DataFrame(
+        np.arange(len(miindex)*len(micolumns)).\
+                reshape((len(miindex),len(micolumns))),
+        index=miindex,
+        columns=micolumns
+    )
+# shuffling the rows
+dfmi = dfmi.iloc[np.random.permutation(len(dfmi))]
+# another method
+dfmi = dfmi.reindex(np.random.permutation(dfmi.index))
+
+# shuffling the columns
+dfmi = dfmi.reindex(columns=np.random.permutation(dfmi.columns))
+# or
+dfmi = dfmi.iloc[:,np.random.permutation(len(dfmi.columns))]
+
+# SORT IT !
+dfmi = dfmi.sort_index().sort_index(axis=1)
+
+
+# slice(None) selects all rows of that level, levels cannot not be omited in 
+# the middle, but can be omited at last
+dfmi.loc[(slice('A1','A3'),slice(None),['C1','C3']),:]
+
+# an alternative (better) syntax
+idx = pd.IndexSlice
+dfmi.loc[idx[:,:,['C1','C3']],idx[:,'foo']]
+
+# can mixed with boolean indexers
+mask = dfmi[('a','foo')]>200
+dfmi.loc[idx[mask,:,['C1','C3']],idx[:]]
+
+
+# operate on a single axis
+df2 = dfmi.copy()
+# and values can be set directly
+df2.loc[idx[:,:,['C1','C3']],:] = df2/1000
+df2
+df2.loc(axis=0)[:,:,['C1','C3']] = -10
 
 
 

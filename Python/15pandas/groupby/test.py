@@ -15,6 +15,12 @@ df = pd.DataFrame({'A' : ['foo', 'bar', 'foo', 'bar',
 # specify columns directly
 df.groupby(['A', 'B'])
 
+# use a list of group names (with the same length as the index)
+s = pd.Series([9, 8, 7, 5, 19, 1, 4.2, 3.3])
+g = pd.Series(list('abababab'))
+gb = s.groupby(g)
+gb.nlargest(3)
+gb.nsmallest(3)
 
 # use a mapper function, or a dict providing the label -> group name mapping
 def get_letter_type(label):
@@ -118,6 +124,8 @@ grouped['D'].agg({'sum_result' : np.sum,
 # depending on whether operating on a single column or multiple columns
 grouped.agg({'C' : np.sum,
              'D' : lambda x: np.std(x)})
+# use string function names to call methods of the GroupBy object
+grouped.agg({'C' : 'sum', 'D' : 'std'})
 
 
 ### 5. transformation

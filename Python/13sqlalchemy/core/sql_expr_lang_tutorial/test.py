@@ -326,6 +326,9 @@ print("tables:", insp.get_table_names())
 meta = MetaData()
 meta.reflect(engine)
 
+# get tables back from reflected meta
+users = meta.tables['users']
+
 # see inspect_db.py
 
 #for table in meta.tables.values():

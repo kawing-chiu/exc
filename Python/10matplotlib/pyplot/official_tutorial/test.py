@@ -58,6 +58,7 @@ t1 = np.arange(0.0, 5.0, 0.1)
 t2 = np.arange(0.0, 5.0, 0.02)
 
 # first
+# 1 is the figure number, if this figure already exists, it will be selected
 plt.figure(1)
 # numrows, numcols, fignum, where 1 < fignum < numrows*numcols
 # the default subplot value is 111

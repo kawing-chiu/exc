@@ -87,7 +87,7 @@ df.iloc[[1,2,4],[0,2]]
 # selecting columns
 df.iloc[:,1:3]
 # however, unlike df.loc[], both the right endpoint is NON-INCLUSIVE
-print(df.iloc[1:4, 0:2])
+print(df.iloc[1:4,0:2])
 # get scalar
 df.iloc[1,1]
 # get scalar, fast version
@@ -95,7 +95,8 @@ df.iat[1,1]
 
 
 # boolean indexing
-df[df.A > 0]
+# note that this selects rows
+df[df.A>0]
 
 df2 = df.copy()
 df2['E'] = ['one', 'one','two','three','four','three']

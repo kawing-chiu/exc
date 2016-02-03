@@ -1,8 +1,7 @@
 from datetime import datetime
 
 import numpy as np
-import pandas as pd
-import matplotlib as mpl
+import pandas as pd import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 
@@ -95,6 +94,8 @@ dft.index.to_pydatetime()
 # frequency conversion
 
 
+# date_range(), reindex() and fill_na() are often used together to process 
+# time-based data
 
 ### 5. resampling
 # the 'time-based groupby'

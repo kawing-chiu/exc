@@ -162,14 +162,27 @@ compare.plot()
 
 
 ### 6. filtration
+dff = pd.DataFrame({'A': np.arange(9), 'B': list('aabbbbccc')})
+dff.groupby('B').filter(lambda x: len(x) > 2)
 
 
 
 
 ### 7. apply
+# apply operations that are neither aggregation nor transformation
+
+grouped = df.groupby('A')
+grouped['C'].apply(lambda x: x.describe())
 
 
-
+grouped = df.groupby('A')['C']
+def f(group):
+    print(group)
+    return pd.DataFrame({'original' : group,
+                         'demeaned' : group - group.mean()})
+# f may be run more than once on the first group, so be careful of any side 
+# effects
+grouped.apply(f)
 
 
 

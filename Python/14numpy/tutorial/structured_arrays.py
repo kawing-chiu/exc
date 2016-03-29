@@ -6,6 +6,7 @@ import numpy as np
 # in the tuple it is (name, type, (optional)shape)
 x = np.array([(1,2.,'Hello'), (2,3.,'World')],
              dtype=[('foo', 'i4'),('bar', 'f4'), ('baz', 'S10')])
+type(x)
 
 
 # access structured array by field name
@@ -41,7 +42,7 @@ x.dtype.names = ('x', 'y')
 # field titles
 x.dtype.fields['x'][2]
 
-# multiple fields at once
+# access multiple fields at once
 x = np.array([(1.5,2.5,(1.0,2.0)),(3.,4.,(4.,5.)),(1.,3.,(2.,6.))],
                 dtype=[('x','f4'),('y',np.float32),('value','f4',(2,2))])
 x[['x','y']]
@@ -50,8 +51,37 @@ x[['y','x']]
 
 
 ### 4. filling
+arr = np.zeros((5,), dtype=[('var1','f8'),('var2','f8')])
+
+# fill by field (column)
+arr['var1'] = np.arange(5)
+
+# fill by row
+arr[0] = (10,20)
+# only tuple works, list will not work:
+#arr[0] = [10,20]
 
 
+### 5. record arrays
+recordarr = np.rec.array([(1,2.,'Hello'),(2,3.,"World")], 
+                   dtype=[('foo', 'i4'),('bar', 'f4'), ('baz', 'S10')])
+recordarr.bar
+recordarr['bar']
+recordarr[1:2]
+
+# create from normal structured array
+arr = np.array([(1,2.,'Hello'),(2,3.,"World")], 
+            dtype=[('foo', 'i4'), ('bar', 'f4'), ('baz', 'S10')])
+recordarr = np.rec.array(arr)
+
+
+
+recordarr = np.rec.array([('Hello', (1,2)),("World", (3,4))], 
+                dtype=[('foo', 'S6'),('bar', [('A', int), ('B', int)])])
+# returns plain ndarray for homogeneous type
+type(recordarr.foo)
+# returns recarray for structured type
+type(recordarr.bar)
 
 
 

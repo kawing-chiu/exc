@@ -12,6 +12,8 @@ file(GLOB SOURCES "src/*.cpp")
 #    "${PROJECT_BINARY_DIR}/TutorialConfig.h"
 #    )
 
+message("PROJECT_SOURCE_DIR=${PROJECT_SOURCE_DIR}")
+message("PROJECT_BINARY_DIR=${PROJECT_BINARY_DIR}")
 
 include_directories(include)
 

@@ -4,6 +4,7 @@ project(zmq_test)
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 message("PROJECT_SOURCE_DIR=${PROJECT_SOURCE_DIR}")
 message("PROJECT_BINARY_DIR=${PROJECT_BINARY_DIR}")
 message("CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
@@ -27,12 +28,16 @@ else()
 endif()
 
 set(arch_lib_dir "${platform}${bitsize}")
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+message("arch_lib_dir: ${arch_lib_dir}")
 
 
 find_library(ZMQ_LIB zmq)
 message("ZMQ_LIB=${ZMQ_LIB}")
+
+
+include_directories("${PROJECT_SOURCE_DIR}/vendor/include/")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 #include_directories("${PROJECT_SOURCE_DIR}/vendor/include/")
 add_subdirectory("${PROJECT_SOURCE_DIR}/src")

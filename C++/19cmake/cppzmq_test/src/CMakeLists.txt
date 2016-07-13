@@ -4,7 +4,6 @@ message("subdir-PROJECT_BINARY_DIR=${PROJECT_BINARY_DIR}")
 message("subdir-CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
 message("subdir-CMAKE_CURRENT_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}")
 
-message("subdir-arch_lib_dir: ${arch_lib_dir}")
 
 
 add_executable(test_client client.cpp)

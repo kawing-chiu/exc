@@ -3,7 +3,6 @@
 //  Binds REP socket to tcp://*:5555
 //  Expects "Hello" from client, replies with "World"
 //
-#include <zmq.hpp>
 #include <string>
 #include <iostream>
 #ifndef _WIN32
@@ -13,6 +12,8 @@
 
 #define sleep(n)    Sleep(n)
 #endif
+
+#include "cppzmq/zmq.hpp"
 
 int main () {
     //  Prepare our context and socket

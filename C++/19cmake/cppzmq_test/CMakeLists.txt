@@ -41,9 +41,12 @@ endif()
 # add include directories and compiler/linker flags
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+add_compile_options(-pthread)
 if(MINGW)
-    set(link_flags "-static-libgcc -static-libstdc++ -Wl,-verbose")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${link_flags}")
+    #set(link_flags "-static-libgcc -static-libstdc++ -Wl,-verbose")
+    #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${link_flags}")
+    message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
     message("CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}")
     message("CMAKE_SYSTEM_PREFIX_PATH=${CMAKE_SYSTEM_PREFIX_PATH}")
     message("CMAKE_SYSTEM_LIBRARY_PATH=${CMAKE_SYSTEM_LIBRARY_PATH}")
@@ -63,6 +66,7 @@ else()
 
     set(default_library_suffixes ${CMAKE_FIND_LIBRARY_SUFFIXES})
     set(CMAKE_FIND_LIBRARY_SUFFIXES .dll)
+    # manually specify all dependencies
     _find_lib(ZMQ_LIB zmq)
     _find_lib(PTHREAD_LIB winpthread-1)
     _find_lib(GCC_LIB gcc_s_dw2-1)
@@ -77,15 +81,15 @@ message("GCC_LIB=${GCC_LIB}")
 message("C++_LIB=${C++_LIB}")
 message("SODIUM_LIB=${SODIUM_LIB}")
 
+# not working on mingw:
 #find_package(Threads REQUIRED)
 #message("CMAKE_THREAD_LIBS_INIT=${CMAKE_THREAD_LIBS_INIT}")
 
 # set output directories
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
 # copy libs target for windows
 if(MINGW)
-    #set(dlls_to_copy ${ZMQ_LIB} ${GCC_LIB} ${C++_LIB} ${PTHREAD_LIB} ${SODIUM_LIB})
     set(dlls_to_copy ${lib_list})
     add_custom_target(copy_dlls ALL)
     add_custom_command(TARGET copy_dlls POST_BUILD
@@ -93,7 +97,7 @@ if(MINGW)
         ${dlls_to_copy}
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     )
-    install(FILES dlls_to_copy DESTINATION bin)
+    install(FILES ${dlls_to_copy} DESTINATION bin)
 endif()
 
 # add subdirectories

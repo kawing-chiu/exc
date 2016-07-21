@@ -63,6 +63,8 @@ void process_ptr1(Test &t) {
 
 // this is also ok, by using const &, the function can use the pointer but 
 // cannot claim its ownership
+// https://www.chromium.org/developers/smart-pointer-guidelines recommend 
+// against using this. When ownership is not taken, use raw pointer instead.
 void process_ptr2(unique_ptr<Test> const &p) {
     p->set_a(p->get_a() + 20);
 }

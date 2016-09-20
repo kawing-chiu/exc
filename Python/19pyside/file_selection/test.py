@@ -15,6 +15,7 @@ def find_dir_dialog():
             os.path.expanduser("~/code_study"))
     print("dir_:", dir_)
 
+
 class MyTab(QtGui.QWidget):
     def __init__(self):
         super().__init__()
@@ -58,8 +59,9 @@ class MyTab(QtGui.QWidget):
 
         text_area = QtGui.QPlainTextEdit()
         text_area.setReadOnly(True)
-        text_area.setPlainText('hehe')
-        text_area.appendPlainText('abcde')
+        text_area.appendPlainText('hehe')
+        text_area.appendHtml('<span style="color:red">[Error] </span>blahblah')
+        self.text_area = text_area
 
         main_layout = QtGui.QVBoxLayout()
         main_layout.addLayout(top_layout)

@@ -1,7 +1,29 @@
 import sys
 import os
-from PySide import QtGui, QtCore
-from PySide.QtCore import Qt
+from functools import partial
+import html
+
+try:
+    from PySide import QtGui, QtCore
+    from PySide.QtCore import Qt
+    pyside = True
+except ImportError:
+    pyside = False
+
+if pyside:
+    pyqt = False
+else:
+    try:
+        from PyQt4 import QtGui, QtCore
+        from PyQt4.QtCore import Qt
+        QtCore.Signal = QtCore.pyqtSignal
+        QtCore.Slot = QtCore.pyqtSlot
+        pyqt = True
+    except ImportError:
+        pyqt = False
+
+if not (pyside or pyqt):
+    sys.exit("Error: Dependency missing. Either PySide or PyQt4 must be installed")
 
 try:
     __IPYTHON__
@@ -10,10 +32,25 @@ except NameError as e:
     ipython = False
 
 
-def find_dir_dialog():
-    dir_ = QtGui.QFileDialog.getExistingDirectory(None, "Choose a dir",
-            os.path.expanduser("~/code_study"))
-    print("dir_:", dir_)
+def find_dialog(type='dir', combo=None):
+    if type == 'dir':
+        path = QtGui.QFileDialog.getExistingDirectory(None, "Choose a dir",
+                os.path.expanduser("~/code_study"))
+    elif type == 'file':
+        if pyside:
+            path, _ = QtGui.QFileDialog.getOpenFileName(None, "Choose a file",
+                    os.path.expanduser("~/Downloads"))
+        elif pyqt:
+            path = QtGui.QFileDialog.getOpenFileName(None, "Choose a file",
+                    os.path.expanduser("~/Downloads"))
+        print("path:", path)
+    print(type+':', path)
+    if path:
+        idx = combo.findText(path)
+        combo.removeItem(idx)
+        combo.insertItem(0, path)
+        combo.setCurrentIndex(0)
+    return path
 
 
 class MyTab(QtGui.QWidget):
@@ -25,21 +62,25 @@ class MyTab(QtGui.QWidget):
 
         browse_button1 = QtGui.QPushButton("choose dir")
         browse_button2 = QtGui.QPushButton("choose file")
-        browse_button1.clicked.connect(find_dir_dialog)
 
         label1 = QtGui.QLabel("Directory:")
         label2 = QtGui.QLabel("File:")
 
         combo1 = QtGui.QComboBox()
         combo1.setEditable(True)
+        combo1.setInsertPolicy(QtGui.QComboBox.InsertAtTop)
         combo1.setSizePolicy(QtGui.QSizePolicy.Expanding,
                 QtGui.QSizePolicy.Preferred)
         combo2 = QtGui.QComboBox()
         combo2.setEditable(True)
+        combo2.setInsertPolicy(QtGui.QComboBox.InsertAtTop)
         combo2.setSizePolicy(QtGui.QSizePolicy.Expanding,
                 QtGui.QSizePolicy.Preferred)
         self.combo1 = combo1
         self.combo2 = combo2
+
+        browse_button1.clicked.connect(partial(find_dialog, 'dir', combo1))
+        browse_button2.clicked.connect(partial(find_dialog, 'file', combo2))
 
         layout = QtGui.QGridLayout()
         layout.addWidget(label1, 0, 0)
@@ -52,6 +93,7 @@ class MyTab(QtGui.QWidget):
         group_box.setLayout(layout)
 
         start_button = QtGui.QPushButton("start")
+        start_button.clicked.connect(self.run)
 
         top_layout = QtGui.QHBoxLayout()
         top_layout.addWidget(group_box)
@@ -59,8 +101,6 @@ class MyTab(QtGui.QWidget):
 
         text_area = QtGui.QPlainTextEdit()
         text_area.setReadOnly(True)
-        text_area.appendPlainText('hehe')
-        text_area.appendHtml('<span style="color:red">[Error] </span>blahblah')
         self.text_area = text_area
 
         main_layout = QtGui.QVBoxLayout()
@@ -68,6 +108,34 @@ class MyTab(QtGui.QWidget):
         main_layout.addWidget(text_area)
 
         self.setLayout(main_layout)
+
+    def run(self):
+        self.info("testing\n<heheh>\nlll", pre=True)
+        self.error("abc\ngood <pre>testing\n<h5>eheh</h5>\nlll</pre>", escape=False)
+
+    def info(self, text, pre=False, escape=True):
+        if escape:
+            text = html.escape(text)
+        if pre:
+            self.text_area.appendHtml('<span style="color:green">[Info] </span>'
+                    '<pre>{}</pre>'
+                    .format(text))
+        else:
+            self.text_area.appendHtml('<span style="color:green">[Info] </span>'
+                    '{}'
+                    .format(text))
+
+    def error(self, text, pre=False, escape=True):
+        if escape:
+            text = html.escape(text)
+        if pre:
+            self.text_area.appendHtml('<span style="color:red">[Error] </span>'
+                    '<pre>{}</pre>'
+                    .format(text))
+        else:
+            self.text_area.appendHtml('<span style="color:red">[Error] </span>'
+                    '{}'
+                    .format(text))
 
 
 class Test(QtGui.QMainWindow):
@@ -89,7 +157,7 @@ class Test(QtGui.QMainWindow):
         self.tabs = central_widget
         
         self.setWindowTitle("Testing")    
-        #self.setGeometry(300, 300, 300, 200)
+        self.resize(700, 500)
         self.setCentralWidget(central_widget)
         self.show()
 

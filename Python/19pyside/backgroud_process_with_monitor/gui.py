@@ -121,13 +121,13 @@ class Monitor(QtCore.QObject):
         #print('main thread:', app.thread())
 
         self.moveToThread(thread)
-        thread.started.connect(self.__run, type=Qt.QueuedConnection)
+        thread.started.connect(self._run)
         self.finish_signal.connect(thread.quit)
         self.finish_signal.connect(self.deleteLater)
         thread.finished.connect(thread.deleteLater)
 
     @QtCore.Slot()
-    def __run(self):
+    def _run(self):
         self.run()
         self.finish_signal.emit()
 
@@ -332,6 +332,8 @@ class MonthlyReportTab(QtGui.QWidget):
         runner.log_signal.connect(self._monitor_log)
 
         runner_thread.start()
+        # this also works in pyqt, but not in pyside                                                                                
+        #QtCore.QMetaObject.invokeMethod(runner, '_run', Qt.QueuedConnection) 
 
         self._runner_thread = runner_thread
         self._runner = runner

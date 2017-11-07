@@ -1,16 +1,26 @@
 class MethodRegister(set):
-    def __init__(self, *, attr):
+    def __init__(self, *, attr, opt_args=True):
         self.attr_name = attr
+        self.opt_args = opt_args
+
+    def _tag_func(self, func, args, kwargs):
+        self.add(func.__name__)
+        if not hasattr(func, self.attr_name):
+            setattr(func, self.attr_name, [])
+        tag_list = getattr(func, self.attr_name)
+        tag_list.append({'args': args, 'kwargs': kwargs})
+        return func
 
     def __call__(self, *args, **kwargs):
-        def decorator(func):
-            self.add(func.__name__)
-            if not hasattr(func, self.attr_name):
-                setattr(func, self.attr_name, [])
-            attr_list = getattr(func, self.attr_name)
-            attr_list.append({'args': args, 'kwargs': kwargs})
-            return func
-        return decorator
+        if (self.opt_args and len(args) == 1 and
+                callable(args[0]) and not kwargs):
+            # Without decorator argument, use the function name as argument
+            func = args[0]
+            return self._tag_func(func, (func.__name__,), kwargs)
+        else:
+            def decorator(func):
+                return self._tag_func(func, args, kwargs)
+            return decorator
 
 
 class _NodeMeta(type):
@@ -31,6 +41,7 @@ class A(metaclass=_NodeMeta):
     @event_handler("unpack_event", unpack_data=True)
     @event_handler("mouse_event")
     def my_method(self, arg1, arg2):
+        """Original doc."""
         pass
 
     @event_handler("key_event")
@@ -40,7 +51,9 @@ class A(metaclass=_NodeMeta):
 class B(A):
 
     @event_handler("hehe", "abc")
+    @event_handler
     def my_method(self, x, y):
+        """Original doc 2."""
         pass
 
     @event_handler("good")

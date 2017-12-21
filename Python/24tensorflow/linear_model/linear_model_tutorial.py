@@ -34,4 +34,5 @@ with tf.Session() as sess:
         [W, b, loss], {x: x_train, y: y_train})
     print("W: %s b: %s loss: %s"%(curr_W, curr_b, curr_loss))
 
+print("Use 'tensorboard --logdir {}' to visualize".format(log_dir))
 

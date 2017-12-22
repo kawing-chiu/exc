@@ -1,5 +1,6 @@
 import tensorflow as tf
 
+n_epochs = 1
 
 # use cmd `tensorboard --logdir <log_dir>` to show log
 log_dir = '/tmp/test/linear_model'
@@ -13,10 +14,10 @@ linear_model = W*x + b
 y = tf.placeholder(tf.float32, name='y')
 
 # loss
-loss = tf.reduce_sum(tf.square(linear_model - y)) # sum of the squares
+loss = tf.reduce_sum(tf.square(linear_model - y), name='loss') # sum of the squares
 # optimizer
 optimizer = tf.train.GradientDescentOptimizer(0.01)
-train = optimizer.minimize(loss)
+train = optimizer.minimize(loss, name='minimize')
 
 # training data
 x_train = [1, 2, 3, 4]
@@ -26,7 +27,7 @@ init = tf.global_variables_initializer()
 with tf.Session() as sess:
     writer = tf.summary.FileWriter(log_dir, sess.graph)
     sess.run(init) # reset values to wrong
-    for i in range(1000):
+    for i in range(n_epochs):
       sess.run(train, {x: x_train, y: y_train})
     
     # evaluate training accuracy

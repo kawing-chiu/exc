@@ -37,8 +37,17 @@ def show():
     ipython_widget.kernel_client = kernel_client
     ipython_widget.show()
 
+    return kernel
+
 
 if __name__ == "__main__":
     app = QtGui.QApplication([])
-    show()
+    kernel = show()
     app.exec_()
+
+    if hasattr(kernel, 'abc'):
+        print("kernel.abc:", kernel.abc)
+
+
+
+

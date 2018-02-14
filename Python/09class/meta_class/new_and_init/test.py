@@ -1,4 +1,4 @@
-import six
+# import six
 
 class TestMeta(type):
     def __new__(meta, name, bases, dct):
@@ -20,7 +20,7 @@ class TestMeta(type):
         print("bases:", bases)
         print("dict:", dct)
 
-class TestClass(six.with_metaclass(TestMeta)):
+class TestClass(metaclass=TestMeta):
     def f(self):
         print("in f")
 

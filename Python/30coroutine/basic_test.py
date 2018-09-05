@@ -5,6 +5,7 @@ class MyAwaitable:
         print("yielded:", y)
         y = yield 'a'
         print("yielded:", y)
+        return "end of awaitable 1"
 
 class MyAwaitable2:
     def __await__(self):
@@ -12,6 +13,7 @@ class MyAwaitable2:
         print("yielded:", y)
         y = yield 'b'
         print("yielded:", y)
+        return "end of awaitable 2"
                              
 async def coro():              
     a = await MyAwaitable()

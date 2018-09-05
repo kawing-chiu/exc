@@ -11,8 +11,9 @@ To run this example:
 import os
 
 from qtconsole.qt import QtGui
-from qtconsole.rich_jupyter_widget import RichJupyterWidget
-from qtconsole.inprocess import QtInProcessKernelManager
+# from qtconsole.rich_jupyter_widget import RichJupyterWidget
+from qtconsole.inprocess import (
+    QtInProcessKernelManager, QtInProcessRichJupyterWidget)
 
 
 def print_process_id():
@@ -28,11 +29,12 @@ def show():
     kernel = kernel_manager.kernel
     kernel.gui = 'qt'
     kernel.shell.push({'foo': 43, 'print_process_id': print_process_id, 'kernel': kernel})
+    kernel.shell.enable_pylab()
 
     kernel_client = kernel_manager.client()
     kernel_client.start_channels()
 
-    ipython_widget = RichJupyterWidget()
+    ipython_widget = QtInProcessRichJupyterWidget()
     ipython_widget.kernel_manager = kernel_manager
     ipython_widget.kernel_client = kernel_client
     ipython_widget.show()
